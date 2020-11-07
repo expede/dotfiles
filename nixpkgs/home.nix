@@ -3,8 +3,11 @@
 let
   unstable = import
     (builtins.fetchTarball {
-      url = https://github.com/nixos/nixpkgs/tarball/e6d81a9b89e8dd8761654edf9dc744660a6bef0a;
-    }) {};
+      # url = https://github.com/nixos/nixpkgs/tarball/c59ea8b8a0e7f927e7291c14ea6cd1bd3a16ff38;
+      url = https://github.com/nixos/nixpkgs/tarball/84d74ae9c9cbed73274b8e4e00be14688ffc93fe;
+    }) {
+      config.allowBroken = true;
+    };
 
   doom-emacs = pkgs.callPackage (builtins.fetchTarball {
     url = https://github.com/vlaci/nix-doom-emacs/archive/master.tar.gz;
@@ -22,6 +25,11 @@ in
         pkgs.dotfiles
         pkgs.jump
         pkgs.niv
+        pkgs.pinentry
+        pkgs.pinentry-curses
+        pkgs.screen
+        pkgs.tmux
+        pkgs.wget
 
         # Process
         pkgs.htop
@@ -33,8 +41,11 @@ in
         pkgs.tree
 
         # Data
-        pkgs.ipfs
+        unstable.ipfs
         pkgs.jq
+
+        # BEAM
+        pkgs.elixir_1_9
 
         # Haskell
         pkgs.ghc
@@ -44,9 +55,11 @@ in
 
         pkgs.haskellPackages.ghcide
         pkgs.haskellPackages.hoogle
+        unstable.haskellPackages.summoner-tui
 
         # Editor
         doom-emacs
+        pkgs.emacs-all-the-icons-fonts 
       ];
 
       file.".emacs.d/init.el".text = ''
@@ -56,7 +69,6 @@ in
 
     programs = {
       bat.enable          = true;
-      # gpg.enable          = true;
       home-manager.enable = true; 
 
       fish = {
@@ -69,10 +81,13 @@ in
           "gcom" = "git checkout master";
           "gr"   = "git rebase";
           "grm"  = "git rebase master";
+
+          "regpg" = "gpg-connect-agent reloadagent /bye";
         };
 
         promptInit = ''
-          eval (ssh-agent -c)
+          set -gx PATH $PATH ~/.local/bin
+          eval (ssh-agent -c) ; set -gx GPG_TTY (tty)
         '';
       };
 
@@ -81,14 +96,32 @@ in
         userName  = "Brooklyn Zelenka";
         userEmail = "hello@brooklynzelenka.com";
  
-        #  signing = {
-        #    key           = "AE90F6D924874634";
-        #    signByDefault = true;
-        #  };
+        signing = {
+          key           = "6E1E0F15E47C02D7";
+          signByDefault = true;
+        };
+      };
+
+      gpg = {
+        enable = true;
+        settings = {
+          default-key = "6E1E0F15E47C02D7";
+        };
       };
     };
 
     services = {
       lorri.enable = true;
+
+      gpg-agent = {
+        enable           = true;
+        # defaultCacheTtl  = 36000;
+        enableSshSupport = true;
+        pinentryFlavor   = "curses";
+
+        # extraConfig = ''
+        #  pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
+        # '';
+      };
     };
   }
