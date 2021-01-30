@@ -169,6 +169,12 @@ in
           key           = "92A150B1496B3553";
           signByDefault = true;
         };
+
+        extraConfig = {
+          github.user        = "expede";
+          init.defaultBranch = "main";
+          pull.rebase        = true;
+        };
       };
     };
 
