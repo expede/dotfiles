@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 
+
 let
   unstable = import
     (builtins.fetchTarball {
@@ -117,13 +118,6 @@ in
         '';
       };
 
-      gpg = {
-        enable = true;
-        settings = {
-          default-key = "F3402CFE311225C1";
-        };
-      };
-
       dircolors = {
         enable = true;
         enableFishIntegration = true;
@@ -134,31 +128,37 @@ in
         enableFishIntegration = true;
 
         settings = {
-	  character = {
-	    success_symbol = "[»](bold green) ";
-	    error_symbol   = "[✗](bold red) ";
-	  };
+          character = {
+            success_symbol = "[»](bold green) ";
+            error_symbol   = "[✗](bold red) ";
+          };
 
-	  directory = {
-	    fish_style_pwd_dir_length = 1;
-	    truncation_length         = 1;
-	  };
+          directory = {
+            fish_style_pwd_dir_length = 1;
+            truncation_length         = 1;
+          };
 
-	  hostname = {
-	    ssh_only = false;
-	    format = "[$hostname]($style):";
-	  };
+          hostname = {
+            ssh_only = false;
+            format = "[$hostname]($style):";
+          };
 
-	  gcloud = {
-	    disabled = true;
-	  };
+          gcloud = {
+            disabled = true;
+	        };
 
-	  username = {
-	    format = "[$user]($style)@";
-	  };
+	        username = {
+	          format = "[$user]($style)@";
+	        };
         };
       };
 
+      gpg = {
+        enable = true;
+        settings = {
+          default-key = "92A150B1496B3553";
+        };
+      };
 
       git = {
         enable    = true;
