@@ -92,7 +92,7 @@ in
 
           "please" = "sudo";
 
-          # "regpg" = "gpg-connect-agent reloadagent /bye";
+          "regpg" = "gpg-connect-agent reloadagent /bye";
 
           "remotenix" = "mosh --ssh='/usr/bin/ssh' expede@64.227.105.246";
         };
@@ -172,16 +172,20 @@ in
       };
     };
 
-    services = {
-      # gpg-agent = {
-      #  enable           = true;
-      #   # defaultCacheTtl  = 36000;
-      #   enableSshSupport = true;
-      #   #pinentryFlavor   = "curses";
+    services = 
+      if pkgs.stdenv.isLinux 
+        then 
+          {
+            gpg-agent = {
+              enable           = true;
+              enableSshSupport = true;
+              pinentryFlavor   = "curses";
 
-        # extraConfig = ''
-        #  pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
-        # '';
-      # };
-    };
+              extraConfig = ''
+                pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
+              '';
+            };
+          }
+        else 
+          {};
   }
