@@ -3,8 +3,7 @@
 let
   unstable = import
     (builtins.fetchTarball {
-      # url = https://github.com/nixos/nixpkgs/tarball/c59ea8b8a0e7f927e7291c14ea6cd1bd3a16ff38;
-      url = https://github.com/nixos/nixpkgs/tarball/84d74ae9c9cbed73274b8e4e00be14688ffc93fe;
+      url = https://github.com/NixOS/nixpkgs/tarball/495066a47fc259aa4fc5f7548e190fded2c7030e;
     }) {
       config.allowBroken = true;
     };
@@ -18,23 +17,29 @@ let
 
 in 
   {
+    nixpkgs.config.allowUnfree = true;
+
     home = {
       packages = [ 
         pkgs.bind
+        pkgs.coreutils
         pkgs.direnv
         pkgs.dotfiles
-        pkgs.jump
+        pkgs.fd
+        # pkgs.lzma
+        pkgs.libpqxx
+        pkgs.mosh
         pkgs.niv
-        pkgs.pinentry
-        pkgs.pinentry-curses
-        pkgs.screen
-        pkgs.tmux
+        pkgs.pinentry_mac
+        #pkgs.pkg-config
+        pkgs.ripgrep
+        pkgs.transmission
+        pkgs.unison-ucm
         pkgs.wget
 
         # Process
         pkgs.htop
         pkgs.lsof
-        pkgs.killall
 
         # FS
         pkgs.ripgrep
@@ -45,17 +50,17 @@ in
         pkgs.jq
 
         # BEAM
-        pkgs.elixir_1_9
+        pkgs.elixir
 
         # Haskell
         pkgs.ghc
         pkgs.ghcid
-        pkgs.stack
+        unstable.haskell-language-server
         pkgs.stylish-haskell
 
         pkgs.haskellPackages.ghcide
         pkgs.haskellPackages.hoogle
-        unstable.haskellPackages.summoner-tui
+        pkgs.haskellPackages.lzma
 
         # Editor
         doom-emacs
@@ -68,11 +73,13 @@ in
     };
 
     programs = {
-      bat.enable          = true;
-      home-manager.enable = true; 
-
+      autojump.enable = true;
+      bat.enable      = true;
+      vscode.enable   = true;
+      
       fish = {
         enable = true;
+
         shellAbbrs = {
           "g"    = "git";
           "gpl"  = "git pull";
@@ -81,15 +88,77 @@ in
           "gcom" = "git checkout master";
           "gr"   = "git rebase";
           "grm"  = "git rebase master";
+          "gasm" = "git add -A; git commit -m";
 
-          "regpg" = "gpg-connect-agent reloadagent /bye";
+          "please" = "sudo";
+
+          # "regpg" = "gpg-connect-agent reloadagent /bye";
+
+          "remotenix" = "mosh --ssh='/usr/bin/ssh' expede@64.227.105.246";
         };
 
         promptInit = ''
-          set -gx PATH $PATH ~/.local/bin
-          eval (ssh-agent -c) ; set -gx GPG_TTY (tty)
+         set -U fish_user_paths /Users/expede/.nix-profile/bin $fish_user_paths
+         set -U fish_user_paths /run/current-system/sw/bin $fish_user_paths
+         set -U fish_user_paths /nix/var/nix/profiles/default/bin $fish_user_paths
+
+         # OpenSSL Compiler Headers
+         set -gx LDFLAGS "-L/usr/local/opt/openssl@1.1/lib"
+         set -gx CPPFLAGS "-I/usr/local/opt/openssl@1.1/include"
+         set -gx PKG_CONFIG_PATH "/usr/local/opt/openssl@1.1/lib/pkgconfig"
+
+         set -gx PATH $PATH ~/.local/bin 
+         set -gx NIX_PATH darwin-config=/Users/expede/.nixpkgs/darwin-configuration.nix:/nix/var/nix/profiles/per-user/root/channels:/Users/expede/.nix-defexpr/channels:/Users/expede/.nix-defexpr/channels
+
+         set -gx HOMEBREW_CELLAR /usr/local/Cellar
+
+         eval (ssh-agent -c) ; set -gx GPG_TTY (tty)
+         direnv hook fish | source
         '';
       };
+
+      gpg = {
+        enable = true;
+        settings = {
+          default-key = "F3402CFE311225C1";
+        };
+      };
+
+      dircolors = {
+        enable = true;
+        enableFishIntegration = true;
+      };
+
+      starship = {
+        enable = true;
+        enableFishIntegration = true;
+
+        settings = {
+	  character = {
+	    success_symbol = "[»](bold green) ";
+	    error_symbol   = "[✗](bold red) ";
+	  };
+
+	  directory = {
+	    fish_style_pwd_dir_length = 1;
+	    truncation_length         = 1;
+	  };
+
+	  hostname = {
+	    ssh_only = false;
+	    format = "[$hostname]($style):";
+	  };
+
+	  gcloud = {
+	    disabled = true;
+	  };
+
+	  username = {
+	    format = "[$user]($style)@";
+	  };
+        };
+      };
+
 
       git = {
         enable    = true;
@@ -97,31 +166,22 @@ in
         userEmail = "hello@brooklynzelenka.com";
  
         signing = {
-          key           = "6E1E0F15E47C02D7";
+          key           = "92A150B1496B3553";
           signByDefault = true;
-        };
-      };
-
-      gpg = {
-        enable = true;
-        settings = {
-          default-key = "6E1E0F15E47C02D7";
         };
       };
     };
 
     services = {
-      lorri.enable = true;
-
-      gpg-agent = {
-        enable           = true;
-        # defaultCacheTtl  = 36000;
-        enableSshSupport = true;
-        pinentryFlavor   = "curses";
+      # gpg-agent = {
+      #  enable           = true;
+      #   # defaultCacheTtl  = 36000;
+      #   enableSshSupport = true;
+      #   #pinentryFlavor   = "curses";
 
         # extraConfig = ''
         #  pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
         # '';
-      };
+      # };
     };
   }
