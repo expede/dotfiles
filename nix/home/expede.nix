@@ -23,7 +23,7 @@
           pkgs.nodejs
           pkgs.opensc
           pkgs.pandoc
-          pkgs.pinentry_mac
+          # FIXME pkgs.pinentry_mac
           pkgs.speedtest-cli
           pkgs.trash-cli
           pkgs.wget

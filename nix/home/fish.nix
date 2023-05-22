@@ -44,4 +44,4 @@
 
       eval (ssh-agent -c) ; set -gx GPG_TTY (tty)
     '';
-  };
+  }
