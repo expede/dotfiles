@@ -5,7 +5,7 @@
 
   in {
     packages = [
-      # pkgs.manim
+      pkgs.obsidian
     ];
 
     programs = {};
