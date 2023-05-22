@@ -11,18 +11,19 @@
 
   outputs = { self, nixpkgs, unstable-pkgs, home-manager, ...}:
     let
-      system        = pkgs.stdenv.system;
+      pure   = false;
+      system = pkgs.stdenv.system;
 
-      hostname      = "mocha";
-      username      = "expede";
+      hostname = "mocha";
+      username = "expede";
 
       homeDirectory = "/Users/${username}";
 
       configuration =
-        config: import ./config.nix {
+        (config: import ./config.nix {
           lib = nixpkgs.outputs.lib;
           inherit pkgs config hostname;
-        };
+        });
 
       pkgs     = import nixpkgs       { config.allowUnfree = true; };
       unstable = import unstable-pkgs {};
@@ -40,7 +41,7 @@
 
             home-manager.users."${username}" = import ../home/expede.nix;
             home-manager.extraSpecialArgs = {
-              pure = false;
+              arch = import ./home.nix { inherit pkgs pure hostname; };
 
               inherit
                 homeDirectory

@@ -1,8 +1,17 @@
-{ pkgs, unstable, homeDirectory, hostname, username, system, pure, ...}:
+{
+  arch,
+  homeDirectory,
+  hostname,
+  pkgs,
+  pure,
+  system,
+  unstable,
+  username,
+  ...
+}:
   let
-    impure-flag = if pure then "" else "--impure";
-    sys-flake-build = "env NIXPKGS_ALLOW_UNFREE=1 nix build ~/Documents/dotfiles/nix/darwin#darwinConfigurations.${hostname}.system ${impure-flag}";
-    sys-flake-switch = "env NIXPKGS_ALLOW_UNFREE=1 ./result/sw/bin/darwin-rebuild switch --flake ~/Documents/dotfiles/nix/darwin ${impure-flag}";
+    impure-flag   = if pure then "" else "--impure";
+
   in
     {
       home = {
@@ -11,19 +20,16 @@
         stateVersion = "22.11";
 
         packages = [
-          # pkgs._1password
           pkgs.cachix
           pkgs.coreutils
           pkgs.fastly
           pkgs.fd
           pkgs.ffmpeg
           pkgs.graphviz
-          # pkgs.manim
           pkgs.mosh
           pkgs.nodejs
           pkgs.opensc
           pkgs.pandoc
-          # FIXME pkgs.pinentry_mac
           pkgs.speedtest-cli
           pkgs.trash-cli
           pkgs.wget
@@ -47,7 +53,7 @@
 
           # Editors
           unstable.emacs
-        ];
+        ] ++ arch.packages;
       };
 
       programs = {
@@ -56,7 +62,9 @@
         vscode.enable   = true;
 
         git  = import ./git.nix { inherit username; };
-        fish = import ./fish.nix { inherit  sys-flake-build sys-flake-switch; };
+        fish = import ./fish.nix {
+          flake-rebuild-switch = arch.flake-rebuild-switch;
+        };
 
         dircolors = {
           enable = true;
@@ -87,28 +95,7 @@
             username.format = "[$user]($style)@";
           };
         };
+      } // arch.programs;
 
-        gpg = {
-          enable = true;
-          settings.default-key = "92A150B1496B3553";
-        };
-      };
-
-      services =
-        if system == "x86_64-linux"
-          then
-            {
-              emacs.enable = true;
-              gpg-agent = {
-                enable           = true;
-                enableSshSupport = true;
-                pinentryFlavor   = "curses";
-  
-                extraConfig = ''
-                  pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
-                '';
-              };
-            }
-          else
-            {};
+      services = arch.services;
     }
