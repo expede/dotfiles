@@ -1,0 +1,85 @@
+{
+  "nodes": {
+    "darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1684343812,
+        "narHash": "sha256-ZTEjiC8PDKeP8JRchuwcFXUNlMcyQ4U+DpyVZ3pB6Q4=",
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "rev": "dfbdabbb3e797334172094d4f6c0ffca8c791281",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lnl7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1684741999,
+        "narHash": "sha256-KZLKsFZ6cLjCdCNKZoT8bc1y+rYBuFgKatmIB38zqy4=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "ba006d7cca2cb871c6a31bdbc130c05cde5ca8e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1684747595,
+        "narHash": "sha256-oYG0BFyzEopwo65ZclTdNcZp5SqcASAnEFNMC5mzKvw=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "9be9b726f4b57814f67b58e860aec7cae2c18675",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "darwin": "darwin",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
+        "unstable-pkgs": "unstable-pkgs"
+      }
+    },
+    "unstable-pkgs": {
+      "locked": {
+        "lastModified": 1684668519,
+        "narHash": "sha256-KkVvlXTqdLLwko9Y0p1Xv6KQ9QTcQorrU098cGilb7c=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "85340996ba67cc02f01ba324e18b1306892ed6f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
