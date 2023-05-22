@@ -14,10 +14,11 @@
 
   outputs = { self, nixpkgs, unstable-pkgs, darwin, home-manager, ...}:
     let
-      system        = pkgs.stdenv.system;
+      pure   = false;
+      system = pkgs.stdenv.system;
 
-      hostname      = "Latte";
-      username      = "expede";
+      hostname = "Latte";
+      username = "expede";
 
       homeDirectory = "/Users/${username}";
 
@@ -38,7 +39,7 @@
             home-manager.useUserPackages = true;
 
             home-manager.users."${username}" = import ../home/expede.nix {
-              pure = false;
+              arch = import ./home.nix { inherit pkgs pure hostname; };
 
               inherit
                 homeDirectory
