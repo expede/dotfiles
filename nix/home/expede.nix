@@ -55,7 +55,13 @@
     bat.enable      = true;
     vscode.enable   = true;
 
-    git  = import ./git.nix { inherit username; };
+    git  = import ./git.nix {
+      inherit username;
+
+      gpg         = arch.gpg;
+      signing-key = arch.signing-key;
+    };
+
     fish = import ./fish.nix {
       flake-rebuild-switch = arch.flake-rebuild-switch;
     };

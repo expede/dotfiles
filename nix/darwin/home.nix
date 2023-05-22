@@ -20,6 +20,16 @@
 
     services = {};
 
+    signing-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM5RGNvxkIOd7lbaCUIe4m2fOZeO0tlTvJXzMZZdtBfo hello@brooklynzelenka.com";
+
+    gpg = {
+      format = "ssh";
+      ssh    = {
+        program            = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        allowedSignersFile = "~/.ssh/allowed_signers";
+      };
+    };
+
     flake-rebuild-switch = "${flake-build} && ${flake-switch}";
     inherit flake-build flake-switch;
   }

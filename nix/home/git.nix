@@ -1,31 +1,22 @@
-{ username }:
+{ username, gpg, signing-key }:
   {
     enable    = true;
     userName  = "Brooklyn Zelenka";
     userEmail = "hello@brooklynzelenka.com";
 
     signing = {
-      key           = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5QDR5zYVvboJ+SJ5sIBVaRPwOrBv9P/AR6Kj5XBPqO hello@brooklynzelenka.com";
+      key           = signing-key;
       signByDefault = true;
     };
 
     extraConfig = {
+      inherit gpg;
+
       core.editor        = "vim";
       github.user        = username;
       init.defaultBranch = "main";
       pull.rebase        = true;
       commit.template    = "./git/gitmessage";
-
-      gpg = {
-        format = "ssh";
-        commit.gpgsign = true;
-        user.signingkey = "~/.ssh/id_ed25519.pub";
-        ssh.allowedSignersFile = "~/.ssh/allowed_signers";
-        # ssh    = {
-          # program            = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-          # allowedSignersFile = "~/.ssh/allowed_signers";
-        # };
-      };
     };
 
     ignores = [
