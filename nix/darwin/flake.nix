@@ -15,12 +15,15 @@
   outputs = { self, nixpkgs, unstable-pkgs, darwin, home-manager, ...}:
     let
       system        = pkgs.stdenv.system;
-      homeDirectory = "/Users/expede";
-      hostname      = "Latte";
 
+      hostname      = "Latte";
+      username      = "expede";
+
+      homeDirectory = "/Users/${username}";
+
+      configuration = import ./config.nix  { inherit pkgs homeDirectory; };
       pkgs          = import nixpkgs       {};
       unstable      = import unstable-pkgs {};
-      configuration = import ./config.nix  { inherit pkgs homeDirectory; };
 
     in {
       darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
@@ -34,15 +37,16 @@
             home-manager.useGlobalPkgs   = true;
             home-manager.useUserPackages = true;
 
-            home-manager.users.expede = import ../home/expede.nix {
-              inherit
-                pkgs
-                unstable
-                system
-                homeDirectory
-                hostname;
-
+            home-manager.users."${username}" = import ../home/expede.nix {
               pure = false;
+
+              inherit
+                homeDirectory
+                hostname
+                pkgs
+                system
+                unstable
+                username;
             };
           }
         ];
