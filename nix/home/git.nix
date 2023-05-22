@@ -1,12 +1,22 @@
-{username}:
+{ username, gpg, signing-key }:
   {
     enable    = true;
     userName  = "Brooklyn Zelenka";
     userEmail = "hello@brooklynzelenka.com";
 
     signing = {
-      key           = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM5RGNvxkIOd7lbaCUIe4m2fOZeO0tlTvJXzMZZdtBfo hello@brooklynzelenka.com";
+      key           = signing-key;
       signByDefault = true;
+    };
+
+    extraConfig = {
+      inherit gpg;
+
+      core.editor        = "vim";
+      github.user        = username;
+      init.defaultBranch = "main";
+      pull.rebase        = true;
+      commit.template    = "./git/gitmessage";
     };
 
     ignores = [
@@ -43,20 +53,4 @@
 
       # End of https://www.toptal.com/developers/gitignore/api/macos
     ];
-
-    extraConfig = {
-      core.editor        = "vim";
-      github.user        = username;
-      init.defaultBranch = "main";
-      pull.rebase        = true;
-      commit.template    = "../../git/gitmessage";
-
-      gpg = {
-        format = "ssh";
-        ssh    = {
-          program            = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-          allowedSignersFile = "~/.ssh/allowed_signers";
-        };
-      };
-    };
   }
