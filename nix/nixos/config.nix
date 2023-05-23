@@ -2,7 +2,6 @@
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
- #     <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -38,19 +37,31 @@
   documentation.enable = false; # expede: Fixes build on 22.11
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
-  hardware.opengl.extraPackages = [pkgs.vaapiVdpau];
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
   services.xserver = {
+    enable = true;
+
     layout = "us";
     xkbVariant = "";
+
+    videoDrivers = lib.mkDefault ["nvidia"];
   };
+  hardware.opengl.extraPackages = [pkgs.vaapiVdpau];
+
+  # Enable XMonad
+  services.xserver.windowManager.xmonad = {
+    enable                 = true;
+    enableContribAndExtras = true;
+    extraPackages = hask: [
+      hask.dbus
+      hask.monad-logger
+      hask.xmonad-contrib
+    ];
+    config = ./Main.hs;
+  };
+
+  # Enable the GNOME Desktop Environment.
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
