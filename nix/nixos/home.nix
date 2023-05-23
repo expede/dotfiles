@@ -6,6 +6,7 @@
   in {
     packages = [
       pkgs.obsidian
+      pkgs.zoom-us
     ];
 
     programs = {};
