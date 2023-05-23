@@ -48,6 +48,10 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # Wake on LAN/WAN
+  networking.interfaces.enp4s0.wakeOnLan.enable = true;
+  networking.interfaces.wlp3s0.wakeOnLan.enable = true;
+
   # Configure keymap in X11
   services.xserver = {
     layout = "us";

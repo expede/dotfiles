@@ -9,7 +9,7 @@
       pkgs.home-manager
     ];
 
-  programs.zsh.enable  = true; # Default shell on Catalina
+  # programs.zsh.enable  = true; # Default shell on Catalina
   programs.fish.enable = true;
 
   users.users.expede = {

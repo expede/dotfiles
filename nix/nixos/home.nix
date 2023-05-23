@@ -10,7 +10,12 @@
       pkgs.zoom-us
     ];
 
-    programs = {};
+    programs = {
+      kitty = {
+        enable = true;
+        shellIntegration.enableFishIntegration = true;
+      };
+    };
 
     services = {
       emacs.enable = true;
