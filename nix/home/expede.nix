@@ -55,6 +55,11 @@
     bat.enable      = true;
     vscode.enable   = true;
 
+    kitty = {
+      enable = true;
+      shellIntegration.enableFishIntegration = true;
+    };
+
     git  = import ./git.nix {
       inherit username;
 
