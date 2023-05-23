@@ -16,7 +16,7 @@
       github.user        = username;
       init.defaultBranch = "main";
       pull.rebase        = true;
-      commit.template    = "./git/gitmessage";
+      commit.template    = "${../../git/gitmessage}";
     };
 
     ignores = [
