@@ -2,7 +2,6 @@
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
- #     <home-manager/nixos>
     ];
 
   # Bootloader.
@@ -28,6 +27,8 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  # expede:
+  hardware.bluetooth.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Vancouver";
@@ -41,6 +42,7 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
   hardware.opengl.extraPackages = [pkgs.vaapiVdpau];
+
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
