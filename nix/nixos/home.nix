@@ -7,6 +7,7 @@
     packages = [
       pkgs.cider
       pkgs.discord
+      pkgs.guake
       pkgs.obsidian
       pkgs.zoom-us
     ];
