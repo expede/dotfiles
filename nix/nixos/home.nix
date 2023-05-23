@@ -5,6 +5,7 @@
 
   in {
     packages = [
+      pkgs.cider
       pkgs.obsidian
       pkgs.zoom-us
     ];
