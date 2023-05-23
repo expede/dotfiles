@@ -6,6 +6,7 @@
   in {
     packages = [
       pkgs.cider
+      pkgs.discord
       pkgs.obsidian
       pkgs.zoom-us
     ];
