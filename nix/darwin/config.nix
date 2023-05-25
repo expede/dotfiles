@@ -1,5 +1,5 @@
 { pkgs, homeDirectory, ... }: {
-  homebrew = import ./brew.nix {};
+  homebrew = import ./brew.nix    {};
   nix      = import ../config.nix { inherit pkgs; };
 
   services.nix-daemon.enable = true;
@@ -13,7 +13,7 @@
   programs.fish.enable = true;
 
   users.users.expede = {
-    home = homeDirectory;
+    home  = homeDirectory;
     shell = pkgs.fish;
   };
 

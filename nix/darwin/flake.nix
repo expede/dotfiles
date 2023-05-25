@@ -14,17 +14,19 @@
 
   outputs = { self, nixpkgs, unstable-pkgs, darwin, home-manager, ...}:
     let
-      pure   = false;
-      system = pkgs.stdenv.system;
-
-      hostname = "Latte";
-      username = "expede";
-
+      system        = "aarch64-darwin";
+      hostname      = "Latte";
+      username      = "expede";
       homeDirectory = "/Users/${username}";
 
+      pkgOpts = {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      pkgs          = import nixpkgs       pkgOpts;
+      unstable      = import unstable-pkgs pkgOpts;
       configuration = import ./config.nix  { inherit pkgs homeDirectory; };
-      pkgs          = import nixpkgs       {};
-      unstable      = import unstable-pkgs {};
 
     in {
       darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
@@ -39,7 +41,7 @@
             home-manager.useUserPackages = true;
 
             home-manager.users."${username}" = import ../home/expede.nix {
-              arch = import ./home.nix { inherit pkgs pure hostname; };
+              arch = import ./home.nix { inherit pkgs hostname; };
 
               inherit
                 homeDirectory
