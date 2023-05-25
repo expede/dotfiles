@@ -53,7 +53,6 @@
   programs = {
     autojump.enable = true;
     bat.enable      = true;
-    vscode.enable   = true;
 
     kitty = {
       enable = true;

@@ -1,10 +1,8 @@
 # Darwin specific modifications to the home manager
-{ pkgs, pure, hostname, ... }:
+{ pkgs, hostname, ... }:
   let
-    unfree       = "env NIXPKGS_ALLOW_UNFREE=1";
-    impure-flag  = if pure then "" else "--impure";
-    flake-build  = "${unfree} nix build ~/Documents/dotfiles/nix/darwin#darwinConfigurations.${hostname}.system ${impure-flag}";
-    flake-switch = "${unfree} ./result/sw/bin/darwin-rebuild switch --flake ~/Documents/dotfiles/nix/darwin ${impure-flag}";
+    flake-build  = "nix build ~/Documents/dotfiles/nix/darwin#darwinConfigurations.${hostname}.system";
+    flake-switch = "./result/sw/bin/darwin-rebuild switch --flake ~/Documents/dotfiles/nix/darwin";
 
   in {
     packages = [
