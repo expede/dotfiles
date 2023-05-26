@@ -4,7 +4,6 @@
     pkgs.cider
     pkgs.discord
     pkgs.guake
-    pkgs.jellyfin
     pkgs.obsidian
     pkgs.zoom-us
   ];
