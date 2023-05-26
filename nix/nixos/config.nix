@@ -41,8 +41,16 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
-  hardware.opengl.extraPackages = [pkgs.vaapiVdpau];
-
+  hardware.opengl = {
+    enable        = true;
+    extraPackages = [
+      pkgs.intel-media-driver
+      pkgs.vaapiIntel
+      pkgs.vaapiVdpau
+      pkgs.libvdpau-va-gl
+      pkgs.intel-compute-runtime
+    ];
+  };
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -56,6 +64,9 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  # Enable media server
+  services.jellyfin.enable = true;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -157,7 +168,7 @@ systemd.services.tailscale-autoconnect = {
 };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 8096 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
 # expede:

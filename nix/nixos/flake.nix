@@ -18,7 +18,12 @@
 
       pkgOpts = {
         inherit system;
-        config.allowUnfree = true;
+        config = {
+          allowUnfree = true;
+          packageOverrides = pkgs: {
+            vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+          };
+        };
       };
 
       pkgs     = import nixpkgs       pkgOpts;
