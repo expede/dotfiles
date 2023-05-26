@@ -1,7 +1,7 @@
 { config, lib, pkgs, hostname, ... }: {
   imports =
     [ # Include the results of the hardware scan.
-      /etc/nixos/hardware-configuration.nix
+      ./hardware.nix
     ];
 
   # Bootloader.
