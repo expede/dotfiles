@@ -27,8 +27,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  # expede:
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth.enable        = true;
 
   # Set your time zone.
   time.timeZone = "America/Vancouver";
@@ -171,21 +170,7 @@ systemd.services.tailscale-autoconnect = {
   networking.firewall.allowedTCPPorts = [ 8096 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
-# expede:
-# networking.firewall = {
-#   enable           = true;
-#   checkReversePath = "loose";
-#
-#   # always allow traffic from your Tailscale network
-#   trustedInterfaces = [ "tailscale0" ];
-#
-#   # allow the Tailscale UDP port through the firewall
-#   allowedUDPPorts = [ config.services.tailscale.port ];
-#
-#   # allow you to SSH in over the public internet
-#   allowedTCPPorts = [ 22 ];
-# };
-
+  services.transmission.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
