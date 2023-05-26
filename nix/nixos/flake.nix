@@ -11,22 +11,24 @@
 
   outputs = { self, nixpkgs, unstable-pkgs, home-manager, ...}:
     let
-      pure   = false;
-      system = pkgs.stdenv.system;
-
-      hostname = "mocha";
-      username = "expede";
-
+      system        = "x86_64-linux";
+      hostname      = "mocha";
+      username      = "expede";
       homeDirectory = "/Users/${username}";
+
+      pkgOpts = {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      pkgs     = import nixpkgs       pkgOpts;
+      unstable = import unstable-pkgs pkgOpts;
 
       configuration =
         (config: import ./config.nix {
           lib = nixpkgs.outputs.lib;
           inherit pkgs config hostname;
         });
-
-      pkgs     = import nixpkgs       { config.allowUnfree = true; };
-      unstable = import unstable-pkgs {};
 
     in {
       nixosConfigurations."${hostname}" = nixpkgs.lib.nixosSystem {
@@ -36,12 +38,12 @@
           configuration
 
           home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs   = true;
-            home-manager.useUserPackages = true;
-
+            home-manager.useGlobalPkgs       = true;
+            home-manager.useUserPackages     = true;
             home-manager.users."${username}" = import ../home/expede.nix;
+
             home-manager.extraSpecialArgs = {
-              arch = import ./home.nix { inherit pkgs pure hostname; };
+              arch = import ./home.nix { inherit pkgs; };
 
               inherit
                 homeDirectory
