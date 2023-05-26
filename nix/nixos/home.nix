@@ -4,6 +4,7 @@
     pkgs.cider
     pkgs.discord
     pkgs.guake
+    pkgs.jellyfin
     pkgs.obsidian
     pkgs.zoom-us
   ];
@@ -11,7 +12,8 @@
   programs = {};
 
   services = {
-    emacs.enable = true;
+    emacs.enable    = true;
+
     gpg-agent = {
       enable           = true;
       enableSshSupport = true;
@@ -23,8 +25,6 @@
     };
   };
 
-  signing-key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5QDR5zYVvboJ+SJ5sIBVaRPwOrBv9P/AR6Kj5XBPqO hello@brooklynzelenka.com";
-
   gpg = {
     format                 = "ssh";
     commit.gpgsign         = true;
@@ -32,5 +32,6 @@
     ssh.allowedSignersFile = "~/.ssh/allowed_signers";
   };
 
+  signing-key          = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP5QDR5zYVvboJ+SJ5sIBVaRPwOrBv9P/AR6Kj5XBPqO hello@brooklynzelenka.com";
   flake-rebuild-switch = "nixos-rebuild switch";
 }
