@@ -25,6 +25,7 @@
       pkgs.opensc
       pkgs.pandoc
       pkgs.speedtest-cli
+      pkgs.stig
       pkgs.trash-cli
       pkgs.wget
 
