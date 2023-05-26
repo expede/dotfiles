@@ -14,6 +14,8 @@
     stateVersion = "22.11";
 
     packages = [
+      pkgs._1password
+      pkgs._1password-gui
       pkgs.cachix
       pkgs.coreutils
       pkgs.fastly
