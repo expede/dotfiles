@@ -52,7 +52,7 @@
       # Editors
       unstable.emacs
     ] ++ arch.packages;
-  };
+  } // arch.home;
 
   programs = {
     autojump.enable = true;

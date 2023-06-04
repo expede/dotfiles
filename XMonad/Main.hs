@@ -62,17 +62,20 @@ main = do
     $ addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh
     $ def
       { modMask     = mod4Mask -- Use Super instead of Alt
-      , terminal    = "kitty"
+      , terminal    = "kitty --single instance"
       , workspaces  = [ "main", "secondary", "bg"]
       , borderWidth = 3
+      , focusedBorderColor = catRosewater
       -- hooks
       -- , logHook     = myPolybarLogHook dbus
       , layoutHook  = myLayoutHook
+      , startupHook = spawn "polybar &"
       }
 
 ---
 
 
+appLauncher  = "rofi -modi drun,ssh,window -show drun -show-icons"
 
 myLayoutHook =
   showWName' myShowWNameConfig $

@@ -15,12 +15,25 @@
     pkgs.guake
     pkgs.material-design-icons
     pkgs.obsidian
+    pkgs.xdotool # Help Rofi display emoji
     pkgs.zoom-us
   ];
 
+  # TESTING
+  home = {
+    pointerCursor.size = 120;
+    pointerCursor.package = pkgs.vanilla-dmz;
+    pointerCursor.name = "Vanilla-DMZ";
+  };
+
   programs = {
     rofi = {
-      enable = true;
+      enable  = true;
+      cycle = true;
+      plugins = [
+        pkgs.rofi-calc
+        pkgs.rofi-emoji
+      ];
     };
   };
 
@@ -99,13 +112,14 @@
     picom = {
       enable = true;
       fade = true;
-      inactiveOpacity = 0.5;
+      inactiveOpacity = 0.9;
       backend = "glx";
       settings = {
         corner-radius = 8;
         rounded-borders = 1;
-      };
 
+        rounded-border-exclude = ["class_g ?= 'polybar'"];
+      };
     };
 
     gpg-agent = {
