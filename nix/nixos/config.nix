@@ -60,7 +60,7 @@
     enable                 = true;
     enableContribAndExtras = true;
 
-    config = builtins.readFile ./xmonad/config.hs;
+    config = builtins.readFile ../../XMonad/Main.hs;
 
     extraPackages = haskellPackages: [
       haskellPackages.dbus
