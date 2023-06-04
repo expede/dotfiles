@@ -52,8 +52,35 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  # Enable the XMonad window manager
+  services.xserver.windowManager.xmonad = {
+    enable                 = true;
+    enableContribAndExtras = true;
+
+    config = builtins.readFile ./xmonad/config.hs;
+
+    extraPackages = haskellPackages: [
+      haskellPackages.dbus
+      haskellPackages.List
+      haskellPackages.monad-logger
+    ];
+  };
+
+  # Let XMonad sleep
+  services.xserver.displayManager.sessionCommands = ''
+    xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
+    xset s blank # `noblank` may be useful for debugging
+    xset s 300 # seconds
+    ${pkgs.lightlocker}/bin/light-locker --idle-hint &
+  '';
+  systemd.targets.hybrid-sleep.enable = true;
+  services.logind.extraConfig = ''
+    IdleAction=hybrid-sleep
+    IdleActionSec=20s
+  '';
 
   # Configure keymap in X11
   services.xserver = {
