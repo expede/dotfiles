@@ -21,6 +21,7 @@
       pkgs.fastly
       pkgs.fd
       pkgs.ffmpeg
+      pkgs.font-awesome
       pkgs.graphviz
       pkgs.mosh
       pkgs.nodejs

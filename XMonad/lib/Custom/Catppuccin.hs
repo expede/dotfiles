@@ -1,6 +1,6 @@
 -- | Colours
 
-module Expede.Themes.Catppuccin where
+module Custom.Catppuccin where
 
 catRosewater, catFlamingo, catPink, catMauve, catRed, catMaroon, catPeach, catYellow, catGreen, catTeal, catSky, catSapphire, catBlue, catLavender, catText, catSubtext1, catSubtext0, catOverlay2, catOverlay1, catOverlay0, catSurface2, catSurface1, catSurface0, catBase, catMantle, catCrust :: String
 
