@@ -7,7 +7,10 @@
   unstable,
   username,
   ...
-}: {
+}:
+  let
+    homeOverrides = if arch ? home then arch.home else {};
+  in {
   home = {
     inherit username;
 
@@ -52,7 +55,7 @@
       # Editors
       unstable.emacs
     ] ++ arch.packages;
-  } // arch.home;
+  } // homeOverrides;
 
   programs = {
     autojump.enable = true;

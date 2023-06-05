@@ -62,14 +62,17 @@ main = do
     $ addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh
     $ def
       { modMask     = mod4Mask -- Use Super instead of Alt
-      , terminal    = "kitty --single instance"
-      , workspaces  = [ "main", "secondary", "bg"]
+      , terminal    = "kitty"
+      -- , workspaces  = [ "main", "secondary", "bg"]
       , borderWidth = 3
-      , focusedBorderColor = catRosewater
+      , normalBorderColor = catMauve
+      , focusedBorderColor = catTeal
       -- hooks
-      -- , logHook     = myPolybarLogHook dbus
+      , logHook     = myPolybarLogHook dbus
       , layoutHook  = myLayoutHook
-      , startupHook = spawn "polybar &"
+      , startupHook = do
+          spawn "polybar top &"
+          spawn "feh --bg-fill ~/.wallpaper.jpg"
       }
 
 ---

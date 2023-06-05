@@ -55,6 +55,10 @@
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
+  #services.xserver.desktopManager.wallpaper = {
+
+  # };
+
   # Enable the XMonad window manager
   services.xserver.windowManager.xmonad = {
     enable                 = true;
@@ -209,6 +213,17 @@ systemd.services.tailscale-autoconnect = {
     };
   };
 
+  fonts.fonts = [
+    pkgs.dina-font
+    pkgs.fira-code
+    pkgs.fira-code-symbols
+    pkgs.liberation_ttf
+    pkgs.mplus-outline-fonts.githubRelease
+    pkgs.noto-fonts
+    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-emoji
+    pkgs.proggyfonts
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
