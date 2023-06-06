@@ -34,7 +34,7 @@
     "firefox-developer-edition"
     "github"
     "google-chrome"
-    # "iterm2"
+    "iterm2"
     "loom"
     "mactex"
     "missive"
