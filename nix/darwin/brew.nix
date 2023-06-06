@@ -27,6 +27,7 @@
   casks = [
     "1password"
     "1password-cli"
+    "beeper"
     "brave-browser"
     "discord"
     "docker"
