@@ -1,81 +1,51 @@
 -- | @expede's XMonad config
 
-import           XMonad
-import           XMonad.Config
-
--- Colours
--- import Custom.Catppuccin
-
 import Flow
 
 -- Imports for Polybar --
 import qualified Codec.Binary.UTF8.String              as UTF8
 import qualified DBus                                  as D
 import qualified DBus.Client                           as D
+
+-- XMonad
+import           XMonad
+import           XMonad.Config
+
 import           XMonad.Hooks.DynamicLog
-import           XMonad.Hooks.FadeInactive             ( fadeInactiveLogHook)
+import           XMonad.Hooks.EwmhDesktops
+import           XMonad.Hooks.FadeInactive             (fadeInactiveLogHook)
+import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.Rescreen                 (rescreenHook)
+import           XMonad.Hooks.StatusBar
+import           XMonad.Hooks.StatusBar.PP
+import           XMonad.Hooks.WindowSwallowing         (swallowEventHook)
+
+import           XMonad.Layout.Accordion
+import           XMonad.Layout.BinarySpacePartition
+import           XMonad.Layout.BoringWindows
+import           XMonad.Layout.Column
 import           XMonad.Layout.LayoutModifier
-import XMonad.Layout.Spacing
-import XMonad.Layout.Renamed as XLR
-import XMonad.Layout.ResizableTile
-import XMonad.Hooks.ManageDocks
-import XMonad.Layout.Accordion
-import XMonad.Layout.BinarySpacePartition
-import XMonad.Layout.BoringWindows
-import XMonad.Layout.Column
-import XMonad.Layout.MultiToggle
-import XMonad.Layout.MultiToggle.Instances
-import XMonad.Layout.NoBorders
-import XMonad.Layout.PerScreen
-import XMonad.Layout.Renamed as XLR
-import XMonad.Layout.ResizableTile
-import XMonad.Layout.ShowWName
-import XMonad.Layout.SimplestFloat
-import XMonad.Layout.Spacing
-import XMonad.Layout.SubLayouts
-import XMonad.Layout.Tabbed
-import XMonad.Layout.WindowNavigation
+import           XMonad.Layout.MultiToggle
+import           XMonad.Layout.MultiToggle.Instances
+import           XMonad.Layout.NoBorders
+import           XMonad.Layout.PerScreen
+import           XMonad.Layout.Renamed                 as XLR
+import           XMonad.Layout.ResizableTile
+import           XMonad.Layout.ShowWName
+import           XMonad.Layout.SimplestFloat
+import           XMonad.Layout.Spacing
+import           XMonad.Layout.SubLayouts
+import           XMonad.Layout.Tabbed
+import           XMonad.Layout.WindowNavigation
 
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.EwmhDesktops
-import XMonad.Util.NamedScratchpad (scratchpadWorkspaceTag)
-import XMonad
-import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.ManageDocks (docks)
--- import XMonad.Hooks.OnPropertyChange (onXPropertyChange)
-import XMonad.Hooks.Rescreen (rescreenHook)
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.WindowSwallowing (swallowEventHook)
-import XMonad.Util.EZConfig
-import XMonad.Util.Hacks as Hacks
-import XMonad.Util.NamedScratchpad (scratchpadWorkspaceTag)
-import XMonad.Util.WorkspaceCompare
-
-import XMonad (spawn)
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
+import           XMonad.Util.EZConfig
+import           XMonad.Util.Hacks                    as Hacks
+import           XMonad.Util.NamedScratchpad          (scratchpadWorkspaceTag)
+import           XMonad.Util.WorkspaceCompare
 
 main :: IO ()
 main = do
   dbus <- mkDbusClient
-  -- xmonad
-  --   . withSB myPolybar'
-  --   . docks
-  --   . (addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh)
-  --   $ def { modMask  = super
-  --         , terminal = "kitty"
-  --         -- Borders
-  --         , borderWidth        = 3
-  --         , normalBorderColor  = catTeal
-  --         , focusedBorderColor = catMauve
-  --         -- Hooks
-  --         , logHook     = myPolybarLogHook dbus
-  --         , layoutHook  = myLayoutHook
-  --         , startupHook = do
-  --             spawn "polybar top &"
-  --             spawn "feh --bg-fill ~/.wallpaper.jpg"
-  --         }
-  --     `additionalKeys` keyBindings
   keyBindings
     |> additionalKeys def
       { modMask  = super
