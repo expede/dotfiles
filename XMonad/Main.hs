@@ -58,23 +58,45 @@ import XMonad.Hooks.StatusBar.PP
 main :: IO ()
 main = do
   dbus <- mkDbusClient
-  xmonad
-    . withSB myPolybar'
-    . docks
-    . (addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh)
-    $ def
-      { modMask     = super
-      , terminal    = "kitty"
-      , borderWidth = 3
-      , normalBorderColor = catTeal
+  -- xmonad
+  --   . withSB myPolybar'
+  --   . docks
+  --   . (addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh)
+  --   $ def { modMask  = super
+  --         , terminal = "kitty"
+  --         -- Borders
+  --         , borderWidth        = 3
+  --         , normalBorderColor  = catTeal
+  --         , focusedBorderColor = catMauve
+  --         -- Hooks
+  --         , logHook     = myPolybarLogHook dbus
+  --         , layoutHook  = myLayoutHook
+  --         , startupHook = do
+  --             spawn "polybar top &"
+  --             spawn "feh --bg-fill ~/.wallpaper.jpg"
+  --         }
+  --     `additionalKeys` keyBindings
+  keyBindings
+    |> additionalKeys def
+      { modMask  = super
+      , terminal = "kitty"
+
+      -- Borders
+      , borderWidth        = 3
+      , normalBorderColor  = catTeal
       , focusedBorderColor = catMauve
-      -- hooks
+
+      -- Hooks
       , logHook     = myPolybarLogHook dbus
       , layoutHook  = myLayoutHook
       , startupHook = do
           spawn "polybar top &"
           spawn "feh --bg-fill ~/.wallpaper.jpg"
-      } `additionalKeys` keyBindings
+      }
+    |> (addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh)
+    |> docks
+    |> withSB myPolybar'
+    |> xmonad
   where
     super :: KeyMask
     super = mod4Mask
@@ -87,8 +109,7 @@ appLauncher  = "rofi -modi drun,ssh,window -show drun -show-icons"
 
 myLayoutHook =
   boringWindows (ifWider 1080 (tall ||| bsp) (column ||| accordion) ||| sf ||| full)
-    |> (NOBORDERS ?? FULL ?? EOT)
-    |> mkToggle
+    |> mkToggle (NOBORDERS ?? FULL ?? EOT)
     |> smartBorders
     |> showWName' myShowWNameConfig
 
@@ -112,13 +133,12 @@ column =
             mySpacing 7 $
               Column 1.0
 
-
 myShowWNameConfig :: SWNConfig
 myShowWNameConfig =
-  def { swn_font = "xft:Vanilla Caramel:size=60"
-      , swn_color = catLavender
-      ,  swn_bgcolor = catBase
-      , swn_fade = 0.8
+  def { swn_font    = "xft:Vanilla Caramel:size=60"
+      , swn_color   = catLavender
+      , swn_bgcolor = catBase
+      , swn_fade    = 0.8
       }
 
 bsp =
