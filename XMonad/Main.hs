@@ -3,9 +3,10 @@
 import           XMonad
 import           XMonad.Config
 
-
 -- Colours
 -- import Custom.Catppuccin
+
+import Flow
 
 -- Imports for Polybar --
 import qualified Codec.Binary.UTF8.String              as UTF8
@@ -13,6 +14,7 @@ import qualified DBus                                  as D
 import qualified DBus.Client                           as D
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.FadeInactive             ( fadeInactiveLogHook)
+import           XMonad.Layout.LayoutModifier
 import XMonad.Layout.Spacing
 import XMonad.Layout.Renamed as XLR
 import XMonad.Layout.ResizableTile
@@ -57,40 +59,40 @@ main :: IO ()
 main = do
   dbus <- mkDbusClient
   xmonad
-    $ withSB myPolybar'
-    $ docks
-    $ addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh
+    . withSB myPolybar'
+    . docks
+    . (addEwmhWorkspaceSort (pure (filterOutWs [scratchpadWorkspaceTag])) . ewmh)
     $ def
-      { modMask     = mod4Mask -- Use Super instead of Alt
+      { modMask     = super
       , terminal    = "kitty"
-      -- , workspaces  = [ "main", "secondary", "bg"]
       , borderWidth = 3
-      , normalBorderColor = catMauve
-      , focusedBorderColor = catTeal
+      , normalBorderColor = catTeal
+      , focusedBorderColor = catMauve
       -- hooks
       , logHook     = myPolybarLogHook dbus
       , layoutHook  = myLayoutHook
       , startupHook = do
           spawn "polybar top &"
           spawn "feh --bg-fill ~/.wallpaper.jpg"
-      }
+      } `additionalKeys` keyBindings
+  where
+    super :: KeyMask
+    super = mod4Mask
 
----
+    keyBindings :: [((KeyMask, KeySym), X ())]
+    keyBindings = [((super, xK_o), spawn appLauncher)]
 
-
+appLauncher :: String
 appLauncher  = "rofi -modi drun,ssh,window -show drun -show-icons"
 
 myLayoutHook =
-  showWName' myShowWNameConfig $
-    smartBorders $
-      mkToggle
-        (NOBORDERS ?? FULL ?? EOT)
-        myLayout
+  boringWindows (ifWider 1080 (tall ||| bsp) (column ||| accordion) ||| sf ||| full)
+    |> (NOBORDERS ?? FULL ?? EOT)
+    |> mkToggle
+    |> smartBorders
+    |> showWName' myShowWNameConfig
 
 mySpacing i = spacingRaw False (Border 10 10 30 30) True (Border i i i i) True
-mySpacing i = spacingRaw False (Border 10 10 30 30) True (Border i i i i) True
-
-myLayout = boringWindows (ifWider 1080 (tall ||| bsp) (column ||| accordion) ||| sf ||| full)
 
 full = renamed [XLR.Replace "Monocle"] $ noBorders Full
 tabs =
@@ -113,12 +115,12 @@ column =
 
 myShowWNameConfig :: SWNConfig
 myShowWNameConfig =
-  def
-    { swn_font = "xft:Vanilla Caramel:size=60",
-      swn_color = catLavender,
-      swn_bgcolor = catBase,
-      swn_fade = 0.8
-    }
+  def { swn_font = "xft:Vanilla Caramel:size=60"
+      , swn_color = catLavender
+      ,  swn_bgcolor = catBase
+      , swn_fade = 0.8
+      }
+
 bsp =
   renamed [XLR.Replace "BSP"] $
     avoidStruts $
@@ -126,6 +128,7 @@ bsp =
         addTabs shrinkText myTabConfig $
           subLayout [] tabs $
             mySpacing 7 emptyBSP
+
 sf = renamed [XLR.Replace "Float"] $ noBorders simplestFloat
 
 accordion =
@@ -145,27 +148,25 @@ tall =
               ResizableTall nmaster delta ratio []
   where
     nmaster = 1
-    ratio = 1 / 2
-    delta = 3 / 100
+    ratio   = 1 / 2
+    delta   = 3 / 100
 
 -- Polybar settings (needs DBus client) --
 mkDbusClient :: IO D.Client
 mkDbusClient = do
   dbus <- D.connectSession
-  D.requestName dbus (D.busName_ "org.xmonad.log") opts
+  D.requestName dbus (D.busName_ "org.xmonad.log") [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
   return dbus
- where
-  opts = [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
 -- Emit a DBus signal on log updates
 dbusOutput :: D.Client -> String -> IO ()
-dbusOutput dbus str =
-  let opath  = D.objectPath_ "/org/xmonad/Log"
-      iname  = D.interfaceName_ "org.xmonad.Log"
-      mname  = D.memberName_ "Update"
-      signal = D.signal opath iname mname
-      body   = [D.toVariant $ UTF8.decodeString str]
-  in  D.emit dbus $ signal { D.signalBody = body }
+dbusOutput dbus str = D.emit dbus $ signal { D.signalBody = body }
+  where
+    opath  = D.objectPath_ "/org/xmonad/Log"
+    iname  = D.interfaceName_ "org.xmonad.Log"
+    mname  = D.memberName_ "Update"
+    signal = D.signal opath iname mname
+    body   = [D.toVariant $ UTF8.decodeString str]
 
 polybarHook :: D.Client -> PP
 polybarHook dbus =
@@ -191,24 +192,21 @@ myPolybarLogHook dbus = myLogHook <+> dynamicLogWithPP (polybarHook dbus)
 
 myPolybar' :: StatusBarConfig
 myPolybar' =
-  def
-    { sbLogHook =
-        xmonadPropLog
-          =<< dynamicLogString polybarPP',
-      sbStartupHook = spawn "~/.config/polybar/launch.sh",
-      sbCleanupHook = spawn "killall polybar"
-    }
+  def { sbLogHook = do
+          pb <- dynamicLogString polybarPP'
+          xmonadPropLog pb
+      , sbStartupHook = spawn "~/.config/polybar/launch.sh"
+      , sbCleanupHook = spawn "killall polybar"
+      }
 
 polybarPP' :: PP
 polybarPP' =
-  def
-    { ppCurrent = textColor' "" . wrap "" "",
-      ppOrder = \(_ : l : _ : _) -> [l]
-    }
+  def { ppCurrent = textColor' "" . wrap "" ""
+      , ppOrder = \(_ : l : _ : _) -> [l]
+      }
 
 textColor' :: String -> String -> String
 textColor' color = wrap ("%{F" <> color <> "}") " %{F-}"
-
 
 ------------------------------------------------------------------------
 -- Status bars and logging

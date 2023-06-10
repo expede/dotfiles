@@ -9,28 +9,25 @@
     };
 
   in {
-    home = {
-      file.".wallpaper.jpg".source = ../../wallpaper/lofi-cafe.jpg;
+    home.file.".wallpaper.jpg".source = ../../wallpaper/lofi-cafe.jpg;
 
-     #  gtk = {
-     #    enable = true;
+    gtk = {
+      enable = true;
 
-     #    theme = {
-     #      name = "Adwaita-dark";
-     #      package = pkgs.gnome3.gnome-themes-extra;
-     #    };
+      theme = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome3.gnome-themes-extra;
+      };
 
-     #    cursorTheme = {
-     #      name    = "Vanilla-DMZ";
-     #      package = pkgs.vanilla-dmz;
-     #    };
+      cursorTheme = {
+        name    = "Vanilla-DMZ";
+        package = pkgs.vanilla-dmz;
+      };
 
-     #    iconTheme = {
-     #      # name = "Adwaita-dark";
-     #      name    = "Vanilla-DMZ";
-     #      package = pkgs.vanilla-dmz; # gnome3.adwaita-icon-theme;
-     #    };
-     #  };
+      iconTheme = {
+        name    = "Vanilla-DMZ";
+        package = pkgs.vanilla-dmz; # gnome3.adwaita-icon-theme;
+      };
     };
 
     packages = [
@@ -80,8 +77,9 @@
             height = 48; # Pixels
             radius = 6.0;
             fixed-center = true;
+            background = "#89dceb";
 
-            padding = 2;
+            padding = 20;
             module-margin = 2;
             locale = "en_GB.UTF-8";
 

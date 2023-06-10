@@ -68,6 +68,7 @@
 
     extraPackages = haskellPackages: [
       haskellPackages.dbus
+      haskellPackages.flow
       haskellPackages.List
       haskellPackages.monad-logger
     ];
@@ -130,7 +131,7 @@
     description = "Brooklyn Zelenka";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
+      firefox-devedition
       git
       gh
       _1password
