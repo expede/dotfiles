@@ -7,7 +7,10 @@
   unstable,
   username,
   ...
-}: {
+}:
+  let
+    homeOverrides = if arch ? home then arch.home else {};
+  in {
   home = {
     inherit username;
 
@@ -21,6 +24,7 @@
       pkgs.fastly
       pkgs.fd
       pkgs.ffmpeg
+      pkgs.font-awesome
       pkgs.graphviz
       pkgs.mosh
       pkgs.nodejs
@@ -51,7 +55,7 @@
       # Editors
       unstable.emacs
     ] ++ arch.packages;
-  };
+  } // homeOverrides;
 
   programs = {
     autojump.enable = true;

@@ -52,8 +52,40 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  #services.xserver.desktopManager.wallpaper = {
+
+  # };
+
+  # Enable the XMonad window manager
+  services.xserver.windowManager.xmonad = {
+    enable                 = true;
+    enableContribAndExtras = true;
+
+    config = builtins.readFile ../../XMonad/Main.hs;
+
+    extraPackages = haskellPackages: [
+      haskellPackages.dbus
+      haskellPackages.flow
+      haskellPackages.List
+      haskellPackages.monad-logger
+    ];
+  };
+
+  # Let XMonad sleep
+  services.xserver.displayManager.sessionCommands = ''
+    xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
+    xset s blank # `noblank` may be useful for debugging
+    xset s 300 # seconds
+    ${pkgs.lightlocker}/bin/light-locker --idle-hint &
+  '';
+  systemd.targets.hybrid-sleep.enable = true;
+  services.logind.extraConfig = ''
+    IdleAction=hybrid-sleep
+    IdleActionSec=20s
+  '';
 
   # Configure keymap in X11
   services.xserver = {
@@ -99,7 +131,7 @@
     description = "Brooklyn Zelenka";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      firefox
+      firefox-devedition
       git
       gh
       _1password
@@ -182,6 +214,17 @@ systemd.services.tailscale-autoconnect = {
     };
   };
 
+  fonts.fonts = [
+    pkgs.dina-font
+    pkgs.fira-code
+    pkgs.fira-code-symbols
+    pkgs.liberation_ttf
+    pkgs.mplus-outline-fonts.githubRelease
+    pkgs.noto-fonts
+    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-emoji
+    pkgs.proggyfonts
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -14,7 +14,7 @@
       system        = "x86_64-linux";
       hostname      = "mocha";
       username      = "expede";
-      homeDirectory = "/Users/${username}";
+      homeDirectory = "/home/${username}";
 
       pkgOpts = {
         inherit system;
@@ -43,20 +43,21 @@
           configuration
 
           home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs       = true;
-            home-manager.useUserPackages     = true;
-            home-manager.users."${username}" = import ../home/expede.nix;
+            home-manager = {
+              useGlobalPkgs       = true;
+              useUserPackages     = true;
+              users."${username}" = import ../home/expede.nix;
+              extraSpecialArgs    = {
+                arch = import ./home.nix { inherit pkgs; };
 
-            home-manager.extraSpecialArgs = {
-              arch = import ./home.nix { inherit pkgs; };
-
-              inherit
-                homeDirectory
-                hostname
-                pkgs
-                system
-                unstable
-                username;
+                inherit
+                  homeDirectory
+                  hostname
+                  pkgs
+                  system
+                  unstable
+                  username;
+              };
             };
           }
         ];
