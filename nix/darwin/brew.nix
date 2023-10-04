@@ -41,6 +41,7 @@
     "missive"
     "nordvpn"
     "obsidian"
+    "steam"
     "zoom"
   ];
 }
