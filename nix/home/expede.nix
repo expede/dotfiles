@@ -14,7 +14,7 @@
   home = {
     inherit username;
 
-    stateVersion = "22.11";
+    stateVersion = "23.05";
 
     packages = [
       pkgs._1password
@@ -26,6 +26,7 @@
       pkgs.ffmpeg
       pkgs.font-awesome
       pkgs.graphviz
+      pkgs.ispell
       pkgs.mosh
       pkgs.nodejs
       pkgs.opensc
