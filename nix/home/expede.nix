@@ -17,23 +17,15 @@
     stateVersion = "23.05";
 
     packages = [
-      pkgs._1password
       pkgs._1password-gui
       pkgs.cachix
       pkgs.coreutils
-      pkgs.fastly
       pkgs.fd
-      pkgs.ffmpeg
       pkgs.font-awesome
-      pkgs.graphviz
       pkgs.ispell
       pkgs.mosh
-      pkgs.nodejs
       pkgs.opensc
-      pkgs.pandoc
       pkgs.speedtest-cli
-      pkgs.stig
-      pkgs.trash-cli
       pkgs.wget
 
       # Process
@@ -44,17 +36,8 @@
       pkgs.ripgrep
       pkgs.tree
 
-      # Data
-      unstable.kubo
-
-      # Language support
-      pkgs.agda
-      pkgs.cargo
-      pkgs.stack
-      pkgs.wasm-bindgen-cli
-
       # Editors
-      unstable.emacs
+      pkgs.emacs
     ] ++ arch.packages;
   } // homeOverrides;
 

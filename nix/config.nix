@@ -1,6 +1,14 @@
 { pkgs, ... }: {
   package      = pkgs.nixVersions.stable;
-  gc.automatic = true;
+  gc = {
+    automatic = true;
+    options   = "--delete-older-than 30d";
+    interval  = {
+      Weekday = 0;
+      Hour    = 0;
+      Minute  = 0;
+    };
+  };
 
   settings = {
     trusted-users = ["root" "@wheel"];

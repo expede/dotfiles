@@ -42,6 +42,5 @@
     "nordvpn"
     "obsidian"
     "steam"
-    "zoom"
   ];
 }

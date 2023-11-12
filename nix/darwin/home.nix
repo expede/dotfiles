@@ -6,7 +6,8 @@
 
   in {
     packages = [
-      pkgs.pinentry_mac
+      # pkgs.pinentry_mac
+      pkgs.zoom-us
     ];
 
     programs = {
