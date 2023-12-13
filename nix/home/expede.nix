@@ -14,7 +14,7 @@
   home = {
     inherit username;
 
-    stateVersion = "23.05";
+    stateVersion = "23.11";
 
     packages = [
       pkgs._1password-gui
