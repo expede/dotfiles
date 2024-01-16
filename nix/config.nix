@@ -1,16 +1,18 @@
 { pkgs, ... }: {
   package      = pkgs.nixVersions.stable;
-  gc = {
-    automatic = true;
-    options   = "--delete-older-than 30d";
-    interval  = {
-      Weekday = 0;
-      Hour    = 0;
-      Minute  = 0;
-    };
-  };
+  # gc = {
+  #   automatic = true;
+  #   options   = "--delete-older-than 30d";
+  #   interval  = {
+  #     Weekday = 0;
+  #     Hour    = 0;
+  #     Minute  = 0;
+  #   };
+  # };
 
   settings = {
+    auto-optimise-store = true;
+    
     trusted-users = ["root" "@wheel"];
 
     trusted-substituters = [

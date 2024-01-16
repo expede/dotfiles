@@ -28,7 +28,6 @@
     "1password"
     "1password-cli"
     "arc"
-    "beeper"
     "brave-browser"
     "discord"
     "docker"
