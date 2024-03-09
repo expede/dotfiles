@@ -52,6 +52,9 @@
       "Temporary Items"
       ".apdisk"
 
+      # Nix
+      "result"
+
       # End of https://www.toptal.com/developers/gitignore/api/macos
     ];
   }

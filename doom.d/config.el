@@ -75,6 +75,7 @@
 ;; accept completion from copilot and fallback to company
 ;;
 (use-package! copilot
+  :defer t
   :hook (prog-mode . copilot-mode)
   :bind (:map copilot-completion-map
               ("<tab>" . 'copilot-accept-completion)
