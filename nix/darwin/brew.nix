@@ -38,6 +38,7 @@
     "loom"
     "mactex"
     "missive"
+    "monodraw"
     "nordvpn"
     "obsidian"
     "steam"

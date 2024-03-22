@@ -22,6 +22,7 @@
 ;           :files ("some-file.el" "src/lisp/*.el")))
 
 (package! graphviz-dot-mode)
+(package! zoom)
 
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
