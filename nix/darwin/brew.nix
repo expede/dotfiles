@@ -41,6 +41,7 @@
     "monodraw"
     "nordvpn"
     "obsidian"
+    "rescuetime"
     "steam"
   ];
 }
