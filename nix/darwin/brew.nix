@@ -14,7 +14,6 @@
   };
 
   taps = [
-    "homebrew/cask"
     "homebrew/cask-drivers"
     "homebrew/cask-versions"
     "homebrew/services"
@@ -28,12 +27,9 @@
     "1password"
     "1password-cli"
     "arc"
-    "brave-browser"
     "discord"
-    "docker"
     "firefox-developer-edition"
     "github"
-    "google-chrome"
     "iterm2"
     "loom"
     "mactex"

@@ -17,7 +17,6 @@
     stateVersion = "23.11";
 
     packages = [
-      pkgs._1password-gui
       pkgs.cachix
       pkgs.coreutils
       pkgs.fd
@@ -37,7 +36,7 @@
       pkgs.tree
 
       # Editors
-      pkgs.emacs
+      unstable.emacs
     ] ++ arch.packages;
   } // homeOverrides;
 
