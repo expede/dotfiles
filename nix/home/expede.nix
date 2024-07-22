@@ -26,6 +26,7 @@
       pkgs.opensc
       pkgs.speedtest-cli
       pkgs.wget
+      unstable.radicle-node
 
       # Process
       pkgs.btop

@@ -23,6 +23,7 @@
 
 (package! graphviz-dot-mode)
 (package! zoom)
+(package! obsidian)
 
 (package! copilot
   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
