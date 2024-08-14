@@ -22,8 +22,8 @@
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
-      pkgs.mosh
-      pkgs.opensc
+      # pkgs.mosh
+      # pkgs.opensc
       pkgs.speedtest-cli
       pkgs.wget
       unstable.radicle-node
@@ -45,16 +45,20 @@
     autojump.enable = true;
     bat.enable      = true;
 
-    kitty = {
-      enable = true;
-      shellIntegration.enableFishIntegration = true;
-    };
+    # kitty = {
+    #  enable = true;
+    #  shellIntegration.enableFishIntegration = true;
+    # };
 
     git  = import ./git.nix {
       inherit username;
 
       gpg         = arch.gpg;
       signing-key = arch.signing-key;
+
+      #extraConfig = {
+      #  push.autoSetupRemote = true;
+      #};
     };
 
     fish = import ./fish.nix {

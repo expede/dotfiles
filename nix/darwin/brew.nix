@@ -33,6 +33,7 @@
     "iterm2"
     "loom"
     "mactex"
+    "texstudio"
     "missive"
     "monodraw"
     "nordvpn"
