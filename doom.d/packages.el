@@ -22,7 +22,7 @@
 ;           :files ("some-file.el" "src/lisp/*.el")))
 
 (package! graphviz-dot-mode)
-(package! zoom)
+;; (package! zoom)
 (package! obsidian)
 
 (package! copilot
