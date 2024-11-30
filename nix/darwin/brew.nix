@@ -33,12 +33,9 @@
     "loom"
     "mactex"
     "texstudio"
-    "missive"
     "monodraw"
     "nordvpn"
     "obs"
-    "obsidian"
-    "rescuetime"
     "steam"
   ];
 }

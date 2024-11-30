@@ -22,11 +22,11 @@
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
-      # pkgs.mosh
-      # pkgs.opensc
+      pkgs.mosh
       pkgs.speedtest-cli
       pkgs.wget
       unstable.radicle-node
+      pkgs.atuin
 
       # Process
       pkgs.btop
@@ -45,24 +45,66 @@
     autojump.enable = true;
     bat.enable      = true;
 
-    # kitty = {
-    #  enable = true;
-    #  shellIntegration.enableFishIntegration = true;
-    # };
+    kitty = {
+      enable = true;
+      shellIntegration.enableFishIntegration = true;
+    };
 
     git  = import ./git.nix {
       inherit username;
 
       gpg         = arch.gpg;
       signing-key = arch.signing-key;
-
-      #extraConfig = {
-      #  push.autoSetupRemote = true;
-      #};
     };
 
     fish = import ./fish.nix {
       flake-rebuild-switch = arch.flake-rebuild-switch;
+    };
+
+    nushell = {
+      enable = true;
+      extraConfig = ''
+        let carapace_completer = {|spans|
+          carapace $spans.0 nushell $spans | from json
+        }
+        $env.config = {
+         show_banner: false,
+         completions: {
+         case_sensitive: false # case-sensitive completions
+         quick: true    # set to false to prevent auto-selecting completions
+         partial: true    # set to false to prevent partial filling of the prompt
+         algorithm: "fuzzy"    # prefix or fuzzy
+         external: {
+         # set to false to prevent nushell looking into $env.PATH to find more suggestions
+             enable: true 
+         # set to lower can improve completion performance at the cost of omitting some options
+             max_results: 100 
+             completer: $carapace_completer # check 'carapace_completer' 
+           }
+         }
+        } 
+        $env.PATH = ($env.PATH | 
+          split row (char esep) |
+          prepend /home/myuser/.apps |
+          append /usr/bin/env
+        )
+      '';
+
+      shellAliases = {
+        gb = "git branch";
+        gs = "git status";
+        gco = "git checkout";
+        gcom = "git checkout main";
+        grm = "git checkout main";
+
+        flake-rebuild-switch = "{${arch.flake-rebuild-switch-nu}}";
+        en = "emacs -nw" ;
+      };
+    };
+
+    carapace = {
+      enable = true;
+      enableNushellIntegration = true;
     };
 
     dircolors = {
@@ -274,11 +316,12 @@
         };
 
         nix_shell = {
-          style = "via [$symbol$state( \($name\))]($style)";
+          format = "[ $symbol$state( \($name\)) ]($style)";
+          style = "bold blue";
           symbol = "❄️ ";
           impure_msg = "impure";
           pure_msg = "pure";
-          unknown_msg = "";
+          unknown_msg = "unknown if pure";
           disabled = false;
         };
 
@@ -286,7 +329,7 @@
           disabled = false;
           time_format = "%R"; # Hour:Minute Format
           style = "bg:#33658A";
-          format = "[ ♥ $time ]($style)";
+          format = "[ 🕐 $time ]($style)";
         };
       };
     };

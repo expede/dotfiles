@@ -1,18 +1,7 @@
 { pkgs, ... }: {
   package      = pkgs.nixVersions.stable;
-  # gc = {
-  #   automatic = true;
-  #   options   = "--delete-older-than 30d";
-  #   interval  = {
-  #     Weekday = 0;
-  #     Hour    = 0;
-  #     Minute  = 0;
-  #   };
-  # };
-
+  optimise.automatic = true;
   settings = {
-    auto-optimise-store = true;
-    
     trusted-users = ["root" "@wheel"];
 
     trusted-substituters = [
@@ -28,6 +17,6 @@
 
   extraOptions = ''
     extra-platforms             = x86_64-darwin aarch64-darwin
-    extra-experimental-features = nix-command flakes repl-flake
+    extra-experimental-features = nix-command flakes
   '';
 }

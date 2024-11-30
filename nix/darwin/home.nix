@@ -30,5 +30,7 @@
     };
 
     flake-rebuild-switch = "${flake-build} && ${flake-switch}";
+    flake-rebuild-switch-nu = "${flake-build} ; ${flake-switch}";
+
     inherit flake-build flake-switch;
   }
