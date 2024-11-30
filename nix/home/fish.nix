@@ -18,7 +18,10 @@
     "flake-rebuild-switch" = "${flake-rebuild-switch}";
 
     "sysinfo" = "nix-shell -p nix-info --run 'nix-info -m'";
-    "doom"    = "~/.config/emacs/bin/doom";
+    "doom-conf"    = "~/.config/emacs/bin/doom";
+
+    "nd" = "nix develop --command fish";
+    "dev" = "nix develop --command fish";
   };
 
   interactiveShellInit = ''

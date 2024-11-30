@@ -317,7 +317,7 @@
 
         nix_shell = {
           format = "[ $symbol$state( \($name\)) ]($style)";
-          style = "bold blue";
+          style = "bg:#86BBD8";
           symbol = "❄️ ";
           impure_msg = "impure";
           pure_msg = "pure";
