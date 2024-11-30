@@ -20,8 +20,8 @@
     "sysinfo" = "nix-shell -p nix-info --run 'nix-info -m'";
     "doom-conf"    = "~/.config/emacs/bin/doom";
 
-    "nd" = "nix develop --command fish";
-    "dev" = "nix develop --command fish";
+    "nd" = "nix develop --command $SHELL";
+    "dev" = "nix develop --command $SHELL";
   };
 
   interactiveShellInit = ''
