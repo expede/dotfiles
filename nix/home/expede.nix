@@ -23,6 +23,7 @@
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
+      pkgs.loc
       pkgs.mosh
       pkgs.speedtest-cli
       pkgs.wget

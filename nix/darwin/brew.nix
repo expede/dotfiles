@@ -28,6 +28,7 @@
     "1password-cli"
     "arc"
     "discord"
+    "ghostty"
     "github"
     "iterm2"
     "loom"
@@ -37,5 +38,6 @@
     "nordvpn"
     "obs"
     "steam"
+    "windsurf"
   ];
 }
