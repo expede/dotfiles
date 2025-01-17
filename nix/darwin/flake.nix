@@ -37,8 +37,11 @@
           darwin.darwinModules.simple
 
           home-manager.darwinModules.home-manager {
-            home-manager.useGlobalPkgs   = true;
-            home-manager.useUserPackages = true;
+            home-manager = {
+              useGlobalPkgs   = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+            };
 
             home-manager.users."${username}" = import ../home/expede.nix {
               arch = import ./home.nix { inherit pkgs hostname; };

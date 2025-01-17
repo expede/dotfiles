@@ -52,6 +52,11 @@
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
+
+      settings = {
+        inline_height = 40;
+        theme.name = "marine";
+      };
     };
 
     kitty = {
