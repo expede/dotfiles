@@ -54,6 +54,7 @@
       enableZshIntegration = true;
 
       settings = {
+        enter_accept = true;
         inline_height = 40;
         theme.name = "marine";
       };
