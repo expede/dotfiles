@@ -112,7 +112,7 @@
         gcom = "git checkout main";
         grm = "git checkout main";
 
-        flake-rebuild-switch = "{${arch.flake-rebuild-switch-nu}}";
+        flake-rebuild-switch = "{${arch.flake-rebuild-switch}}";
         en = "emacs -nw" ;
       };
     };
