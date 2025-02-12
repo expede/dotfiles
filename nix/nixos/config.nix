@@ -41,8 +41,10 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
   hardware.opengl = {
-    enable        = true;
-    extraPackages = [
+    enable          = true;
+    driSupport      = true;
+    driSupport32Bit = true;
+    extraPackages   = [
       pkgs.intel-media-driver
       pkgs.vaapiIntel
       pkgs.vaapiVdpau
@@ -51,9 +53,19 @@
     ];
   };
 
+  hardware.nvidia = {
+    modesetting.enable = true;
+    nvidiaSettings = true;
+
+    powerManagement.enable = true;
+    open = true;
+  };
+
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
   #services.xserver.desktopManager.wallpaper = {
 
