@@ -35,15 +35,15 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
 
-  documentation.enable = false; # expede: Fixes build on 22.11
+  # documentation.enable = false; # expede: Fixes build on 22.11
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
-  hardware.opengl = {
+  hardware.graphics = {
     enable          = true;
-    driSupport      = true;
-    driSupport32Bit = true;
+    # driSupport      = true;
+    enable32Bit = true;
     extraPackages   = [
       pkgs.intel-media-driver
       pkgs.vaapiIntel
@@ -118,8 +118,8 @@
   ];
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  # sound.enable = true;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -232,8 +232,7 @@ systemd.services.tailscale-autoconnect = {
     pkgs.fira-code-symbols
     pkgs.liberation_ttf
     pkgs.mplus-outline-fonts.githubRelease
-    pkgs.noto-fonts
-    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-emoji
     pkgs.proggyfonts
   ];
