@@ -14,20 +14,20 @@
     gtk = {
       enable = true;
 
-      theme = {
-        name = "Adwaita-dark";
-        package = pkgs.gnome3.gnome-themes-extra;
-      };
+      # theme = {
+      #   name = "Adwaita-dark";
+      #   package = pkgs.gnome3.gnome-themes-extra;
+      # };
 
-      cursorTheme = {
-        name    = "Vanilla-DMZ";
-        package = pkgs.vanilla-dmz;
-      };
+      # cursorTheme = {
+      #   name    = "Vanilla-DMZ";
+      #   package = pkgs.vanilla-dmz;
+      # };
 
-      iconTheme = {
-        name    = "Vanilla-DMZ";
-        package = pkgs.vanilla-dmz; # gnome3.adwaita-icon-theme;
-      };
+      # iconTheme = {
+      #   name    = "Vanilla-DMZ";
+      #   package = pkgs.vanilla-dmz; # gnome3.adwaita-icon-theme;
+      # };
     };
 
     packages = [

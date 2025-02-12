@@ -42,7 +42,6 @@
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
   hardware.graphics = {
     enable          = true;
-    # driSupport      = true;
     enable32Bit = true;
     extraPackages   = [
       pkgs.intel-media-driver
@@ -114,7 +113,6 @@
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
-    "repl-flake"
   ];
 
   # Enable sound with pipewire.
@@ -146,7 +144,8 @@
       firefox-devedition
       git
       gh
-      _1password
+      _1password-cli
+      localsearch
     ];
   };
 
