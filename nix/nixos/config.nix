@@ -35,14 +35,15 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
 
-  documentation.enable = false; # expede: Fixes build on 22.11
+  # documentation.enable = false; # expede: Fixes build on 22.11
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
-  hardware.opengl = {
-    enable        = true;
-    extraPackages = [
+  hardware.graphics = {
+    enable          = true;
+    enable32Bit = true;
+    extraPackages   = [
       pkgs.intel-media-driver
       pkgs.vaapiIntel
       pkgs.vaapiVdpau
@@ -51,46 +52,56 @@
     ];
   };
 
+  hardware.nvidia = {
+    modesetting.enable = true;
+    nvidiaSettings = true;
+
+    powerManagement.enable = true;
+    open = true;
+  };
+
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
   #services.xserver.desktopManager.wallpaper = {
 
   # };
 
   # Enable the XMonad window manager
-  services.xserver.windowManager.xmonad = {
-    enable                 = true;
-    enableContribAndExtras = true;
+  # services.xserver.windowManager.xmonad = {
+  #   enable                 = true;
+  #   enableContribAndExtras = true;
 
-    config = builtins.readFile ../../XMonad/Main.hs;
+  #   config = builtins.readFile ../../XMonad/Main.hs;
 
-    extraPackages = haskellPackages: [
-      haskellPackages.dbus
-      haskellPackages.flow
-      haskellPackages.List
-      haskellPackages.monad-logger
-    ];
-  };
+  #   extraPackages = haskellPackages: [
+  #     haskellPackages.dbus
+  #     haskellPackages.flow
+  #     haskellPackages.List
+  #     haskellPackages.monad-logger
+  #   ];
+  # };
 
   # Let XMonad sleep
-  services.xserver.displayManager.sessionCommands = ''
-    xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
-    xset s blank # `noblank` may be useful for debugging
-    xset s 300 # seconds
-    ${pkgs.lightlocker}/bin/light-locker --idle-hint &
-  '';
-  systemd.targets.hybrid-sleep.enable = true;
-  services.logind.extraConfig = ''
-    IdleAction=hybrid-sleep
-    IdleActionSec=20s
-  '';
+  # services.xserver.displayManager.sessionCommands = ''
+  #  xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
+  #  xset s blank # `noblank` may be useful for debugging
+  #  xset s 300 # seconds
+  #  ${pkgs.lightlocker}/bin/light-locker --idle-hint &
+  #'';
+  #systemd.targets.hybrid-sleep.enable = true;
+  #services.logind.extraConfig = ''
+  #  IdleAction=hybrid-sleep
+  #  IdleActionSec=20s
+  #'';
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -102,12 +113,11 @@
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
-    "repl-flake"
   ];
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  # sound.enable = true;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -134,7 +144,8 @@
       firefox-devedition
       git
       gh
-      _1password
+      _1password-cli
+      localsearch
     ];
   };
 
@@ -214,14 +225,13 @@ systemd.services.tailscale-autoconnect = {
     };
   };
 
-  fonts.fonts = [
+  fonts.packages = [
     pkgs.dina-font
     pkgs.fira-code
     pkgs.fira-code-symbols
     pkgs.liberation_ttf
     pkgs.mplus-outline-fonts.githubRelease
-    pkgs.noto-fonts
-    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-emoji
     pkgs.proggyfonts
   ];
