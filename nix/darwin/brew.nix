@@ -28,6 +28,8 @@
     "1password-cli"
     "arc"
     "discord"
+    "eloston-chromium"
+    "firefox@developer-edition"
     "ghostty"
     "github"
     "iterm2"
@@ -37,7 +39,8 @@
     "monodraw"
     "nordvpn"
     "obs"
+    "proton-mail"
+    "proton-mail-bridge"
     "steam"
-    "windsurf"
   ];
 }
