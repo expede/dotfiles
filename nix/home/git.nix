@@ -12,12 +12,13 @@
     extraConfig = {
       inherit gpg;
 
-      commit.template    = "${../../git/gitmessage}";
-      core.editor        = "vim";
-      github.user        = username;
-      init.defaultBranch = "main";
-      pull.rebase        = true;
-      rerere.enabled     = true;
+      commit.template      = "${../../git/gitmessage}";
+      core.editor          = "vim";
+      github.user          = username;
+      init.defaultBranch   = "main";
+      pull.rebase          = true;
+      push.autoSetupRemote = true;
+      rerere.enabled       = true;
     };
 
     ignores = [
