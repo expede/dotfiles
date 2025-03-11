@@ -23,6 +23,7 @@
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
+      pkgs.lazyjj
       pkgs.loc
       pkgs.mosh
       pkgs.speedtest-cli
@@ -70,6 +71,16 @@
 
       gpg         = arch.gpg;
       signing-key = arch.signing-key;
+    };
+
+    jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          email = "hello@brooklynzelenka.com";
+          name = "Brooklyn Zelenka";
+        };
+      };
     };
 
     fish = import ./fish.nix {
