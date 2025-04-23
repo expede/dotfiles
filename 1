@@ -23,13 +23,11 @@
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
-      # pkgs.lazyjj
+      pkgs.lazyjj
       pkgs.loc
       pkgs.mosh
-      pkgs.nodejs
       pkgs.speedtest-cli
       pkgs.wget
-      unstable.copilot-language-server
       unstable.radicle-node
 
       # Process
@@ -41,7 +39,7 @@
       pkgs.tree
 
       # Editors
-      (pkgs.emacs.override { withNativeCompilation = false; })
+      unstable.emacs
     ] ++ arch.packages;
   } // homeOverrides;
 
@@ -75,30 +73,26 @@
       signing-key = arch.signing-key;
     };
 
-    # jujutsu = {
-    #   enable = true;
-    #   settings = {
-    #     user = {
-    #       email = "hello@brooklynzelenka.com";
-    #       name = "Brooklyn Zelenka";
-    #     };
+    jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          email = "hello@brooklynzelenka.com";
+          name = "Brooklyn Zelenka";
+        };
 
-    #     ui.editor = "vim";
-    #     ui.diff-editor = "vimdiff";
+	ui.editor = "vim";
+	ui.diff-editor = "vimdiff";
 
-    #     signing = {
-    #       behavior = "own";
-    #       backend = "ssh";
+        revset-aliases.'immutable_heads()' = 'builtin_immutable_heads()';
 
-    #       key = arch.signing-key;
-    #       sign-all = true;
-
-    #       backends.ssh = {
-    #         program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-    #       };
-    #     };
-    #   };
-    # };
+        signing = {
+          behavior = "own";
+          backend = "ssh";
+          signing = arch.signing-key;
+	};
+      };
+    };
 
     fish = import ./fish.nix {
 	    flake-rebuild-switch = arch.flake-rebuild-switch;
