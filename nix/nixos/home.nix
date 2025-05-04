@@ -39,8 +39,10 @@
       pkgs.guake
       pkgs.killall
       pkgs.material-design-icons
+      pkgs.nodejs
       pkgs.obsidian
       pkgs.pavucontrol # Audio
+      pkgs.transmission_4
       # pkgs.xdotool # Help Rofi display emoji
       pkgs.zoom-us
     ];

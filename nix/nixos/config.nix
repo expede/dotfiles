@@ -18,6 +18,10 @@
   boot.initrd.luks.devices."luks-c0b45b46-fd32-4f13-b237-a5c5d666f1f6".device = "/dev/disk/by-uuid/c0b45b46-fd32-4f13-b237-a5c5d666f1f6";
   boot.initrd.luks.devices."luks-c0b45b46-fd32-4f13-b237-a5c5d666f1f6".keyFile = "/crypto_keyfile.bin";
 
+  # boot.kernelParams = ["resume_offset=<offset>"];
+  boot.resumeDevice = "/dev/disk/by-uuid/18e1144a-daa3-4315-a51c-848a03f70d5b";
+  powerManagement.enable = true;
+
   networking.hostName = hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -56,7 +60,8 @@
     modesetting.enable = true;
     nvidiaSettings = true;
 
-    powerManagement.enable = true;
+    powerManagement.enable = true; # 2025 Feb 16 enabling may cause sleep to fail
+    powerManagement.finegrained = false; # 2025 Feb 16 enabling may cause sleep to fail
     open = true;
   };
 
@@ -108,7 +113,9 @@
   services.printing.enable = true;
 
   # Enable media server
-  services.jellyfin.enable = true;
+  services.jellyfin = {
+    enable = true;
+  };
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -144,8 +151,12 @@
       firefox-devedition
       git
       gh
+      github-copilot-cli
       _1password-cli
       localsearch
+      jellyfin
+      jellyfin-web
+      jellyfin-ffmpeg
     ];
   };
 
@@ -182,32 +193,32 @@
 
   # expede:
   # create a oneshot job to authenticate to Tailscale
-systemd.services.tailscale-autoconnect = {
-  description = "Automatic connection to Tailscale";
-
-  # make sure tailscale is running before trying to connect to tailscale
-  after = [ "network-pre.target" "tailscale.service" ];
-  wants = [ "network-pre.target" "tailscale.service" ];
-  wantedBy = [ "multi-user.target" ];
-
-  # set this service as a oneshot job
-  serviceConfig.Type = "oneshot";
-
-  # have the job run this shell script
-  script = with pkgs; ''
-    # wait for tailscaled to settle
-    sleep 2
-
-    # check if we are already authenticated to tailscale
-    status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
-    if [ $status = "Running" ]; then # if so, then do nothing
-      exit 0
-    fi
-
-    # otherwise authenticate with tailscale
-    ${tailscale}/bin/tailscale up -authkey tskey-auth-kejokE6CNTRL-rSHKwrvyq2iitQRPhth4zhStFEikfzXVj
-  '';
-};
+# systemd.services.tailscale-autoconnect = {
+#   description = "Automatic connection to Tailscale";
+# 
+#   # make sure tailscale is running before trying to connect to tailscale
+#   after = [ "network-pre.target" "tailscale.service" ];
+#   wants = [ "network-pre.target" "tailscale.service" ];
+#   wantedBy = [ "multi-user.target" ];
+# 
+#   # set this service as a oneshot job
+#   serviceConfig.Type = "oneshot";
+# 
+#   # have the job run this shell script
+#   script = with pkgs; ''
+#     # wait for tailscaled to settle
+#     sleep 2
+# 
+#     # check if we are already authenticated to tailscale
+#     status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
+#     if [ $status = "Running" ]; then # if so, then do nothing
+#       exit 0
+#     fi
+# 
+#     # otherwise authenticate with tailscale
+#     ${tailscale}/bin/tailscale up -authkey tskey-auth-kejokE6CNTRL-rSHKwrvyq2iitQRPhth4zhStFEikfzXVj
+#   '';
+# };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 8096 ];

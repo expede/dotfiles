@@ -26,7 +26,14 @@
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef"; }
+    [ 
+      { 
+        device = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef"; 
+      }
+      {
+        device = "/var/lib/swapfile";
+        size = 75 * 1024;
+      }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -38,7 +45,4 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  # hardware.nvidia.package = config.boot.kernelPackages.stable;
-  # high-resolution display
-  # OUTDATED hardware.video.hidpi.enable = lib.mkDefault true;
 }
