@@ -49,7 +49,7 @@
        (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
-       workspaces        ; tab emulation, persistence & separate workspaces
+       ;; workspaces        ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
        :editor
@@ -105,7 +105,7 @@
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -116,7 +116,7 @@
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
        (cc +lsp)         ; C > C++ == 1
-       clojure           ; java with a lisp
+       ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
@@ -127,7 +127,7 @@
        elixir            ; erlang done right
        elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
-       erlang            ; an elegant language for a more civilized age
+       ;;erlang            ; an elegant language for a more civilized age
        ;;ess               ; emacs speaks statistics
        ;;factor
        ;;faust             ; dsp, but you get to keep your soul
@@ -135,9 +135,9 @@
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;gdscript          ; the language you waited for
-       (go +lsp)         ; the hipster dialect
-       (graphql +lsp)    ; Give queries a REST
-       (haskell +lsp)    ; a language that's lazier than I am
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;; idris             ; a language you can depend on
        json              ; At least it ain't XML
@@ -152,18 +152,18 @@
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
-       ocaml             ; an objective camel
-       org               ; organize your plain life in plain text
+       ;;ocaml             ; an objective camel
+       ;;org               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;; purescript        ; javascript, but functional
-       python            ; beautiful is better than ugly
+       ;;python            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
-       racket            ; a DSL for DSLs
+       ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
        ;;rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
-       (ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
        (rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        (scheme +guile)   ; a fully conniving family of lisps
@@ -174,7 +174,7 @@
        ;;terra             ; Earth and Moon in alignment for performance.
        web               ; the tubes
        yaml              ; JSON, but readable
-       zig               ; C, but simpler
+       ;;zig               ; C, but simpler
 
        :email
        ;;(mu4e +org +gmail)

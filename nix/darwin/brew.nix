@@ -13,12 +13,6 @@
     upgrade    = true;
   };
 
-  taps = [
-    "homebrew/cask-drivers"
-    "homebrew/cask-versions"
-    "homebrew/services"
-  ];
-
   brews = [
     "graphviz"
   ];
@@ -28,7 +22,7 @@
     "1password-cli"
     "arc"
     "discord"
-    "eloston-chromium"
+    "ungoogled-chromium"
     "firefox@developer-edition"
     "ghostty"
     "github"
@@ -42,5 +36,6 @@
     "proton-mail"
     "proton-mail-bridge"
     "steam"
+    "zed"
   ];
 }

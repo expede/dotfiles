@@ -31,15 +31,33 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-moonlight)
+;;;;;;;;; BROOKE'S CUTSOM THEMES
+(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
+;; (setq doom-theme 'doom-solarized-twilight)
+;; (setq doom-theme 'doom-fairy-floss)
+;; (setq doom-theme 'doom-moonlight)
+;; (setq doom-theme 'doom-molokai)
+(setq doom-theme 'doom-dracula)
+
+;; (setq catppuccin-flavor 'latte)
+;; (setq doom-theme 'catppuccin)
+
+(setq doom-themes-enable-bold t    ;; Enable bold fonts
+      doom-themes-enable-italic t) ;; Enable italic fonts
+(add-hook! 'doom-load-theme-hook
+  (set-face-attribute 'font-lock-keyword-face nil :slant 'italic);; Cursive for some fonts; else use 'italic
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic :weight 'light)
+  (set-face-attribute 'font-lock-doc-face nil :slant 'italic)
+  (set-face-attribute 'font-lock-doc-markup-face nil :slant 'normal :weight 'normal))
+(set-face-background 'default "unspecified-bg") ;; disable background colour for transparency
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+;; 
+;; ;; If you use `org' and don't want your org files in the default location below,
+;; ;; change `org-directory'. It must be set before org loads!
+;; (setq org-directory "~/org/")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -83,39 +101,33 @@
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
-;; (use-package zoom
-;;   :hook (doom-first-input . zoom-mode)
-;;   :config
-;;   (setq zoom-size '(0.618 . 0.618)
-;;         zoom-ignored-major-modes '(dired-mode vterm-mode help-mode helpful-mode rxt-help-mode help-mode-menu org-mode)
-;;         zoom-ignored-buffer-names '("*doom:scratch*" "*info*" "*helpful variable: argv*")
-;;         zoom-ignored-buffer-name-regexps '("^\\*calc" "\\*helpful variable: .*\\*")
-;;         ;; zoom-ignore-predicates (list (lambda () (> (count-lines (point-min) (point-max)) 20)))
-;; 	))
-
-(use-package obsidian
+(use-package! obsidian
   :ensure t
   :demand t
   :config
-  (obsidian-specify-path "~/Documents/Notes/notes/content")
   (global-obsidian-mode t)
+  ;; (obsidian-backlinks-mode t)
   :custom
-  ;; This directory will be used for `obsidian-capture' if set.
-  ;; (obsidian-inbox-directory "Inbox")
-  ;; Create missing files in inbox? - when clicking on a wiki link
-  ;; t: in inbox, nil: next to the file with the link
-  ;; default: t
-  ;(obsidian-wiki-link-create-file-in-inbox nil)
-  ;; The directory for daily notes (file name is YYYY-MM-DD.md)
-  (obsidian-daily-notes-directory "Daily Notes")
-  ;; Directory of note templates, unset (nil) by default
-  ;(obsidian-templates-directory "Templates")
-  ;; Daily Note template name - requires a template directory. Default: Daily Note Template.md
-  ;(obsidian-daily-note-template "Daily Note Template.md")
-  :bind (:map obsidian-mode-map
-  ;; Replace C-c C-o with Obsidian.el's implementation. It's ok to use another key binding.
-  ("C-c C-o" . obsidian-follow-link-at-point)
-  ;; Jump to backlinks
-  ("C-c C-b" . obsidian-backlink-jump)
-  ;; If you prefer you can use `obsidian-insert-link'
-  ("C-c C-l" . obsidian-insert-wikilink)))
+  (obsidian-directory "~/Documents/Notes/notes/content")  ;; This is where your Obsidian notes are located
+  (markdown-enable-wiki-links t)
+
+  ;; Optional: Enable Obsidian mode in Markdown files automatically
+  (add-hook 'markdown-mode-hook 'obsidian-mode)
+
+  ;; Add a hook to enable obsidian-mode only in the correct directory
+  (add-hook 'find-file-hook 'my/enable-obsidian-if-in-vault)
+
+  ;; Keybindings (optional, using Doom leader key)
+  (map! :leader
+        :prefix "n"  ;; "n" for notes
+        :desc "Obsidian follow link" "f" #'obsidian-follow-link
+        :desc "Obsidian back link" "b" #'obsidian-backlink
+        :desc "Obsidian new note" "n" #'obsidian-new))
+
+;; (use-package! eldoc-box
+;;   :hook (lsp-mode . eldoc-box-hover-mode))
+;; 
+;; (after! eldoc
+;;   (global-eldoc-mode 1)
+;;   (setq eldoc-echo-area-use-multiline-p t)
+;;   )
