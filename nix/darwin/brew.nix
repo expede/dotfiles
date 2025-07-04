@@ -22,7 +22,7 @@
     "1password-cli"
     "arc"
     "discord"
-    "eloston-chromium"
+    "ungoogled-chromium"
     "firefox@developer-edition"
     "ghostty"
     "github"
