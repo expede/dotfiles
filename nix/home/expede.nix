@@ -24,10 +24,10 @@
       pkgs.font-awesome
       pkgs.ispell
       # pkgs.lazyjj
-      pkgs.loc
       pkgs.mosh
       pkgs.nodejs
       pkgs.speedtest-cli
+      pkgs.tokei
       pkgs.wget
       unstable.copilot-language-server
       unstable.radicle-node

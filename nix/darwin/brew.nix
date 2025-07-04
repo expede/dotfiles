@@ -36,5 +36,6 @@
     "proton-mail"
     "proton-mail-bridge"
     "steam"
+    "zed"
   ];
 }

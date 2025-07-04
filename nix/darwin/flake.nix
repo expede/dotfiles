@@ -2,13 +2,13 @@
   description = "expede's Darwin Configuration";
 
   inputs = {
-    nixpkgs.url       = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
+    nixpkgs.url       = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
     unstable-pkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    darwin.url                    = "github:lnl7/nix-darwin/nix-darwin-24.11";
+    darwin.url                    = "github:lnl7/nix-darwin/nix-darwin-25.05";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url                    = "github:nix-community/home-manager/release-24.11";
+    home-manager.url                    = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -31,6 +31,8 @@
     in {
       darwinConfigurations."${hostname}" = darwin.lib.darwinSystem {
         inherit system;
+
+        # primaryUser = username;
 
         modules = [
           configuration
