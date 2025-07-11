@@ -101,7 +101,6 @@
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
-    "repl-flake"
   ];
 
   # Enable sound with pipewire.
@@ -132,7 +131,7 @@
       firefox-devedition
       git
       gh
-      _1password
+      _1password-cli
     ];
   };
 
