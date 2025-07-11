@@ -40,16 +40,15 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
-  hardware.opengl = {
-    enable        = true;
-    extraPackages = [
-      pkgs.intel-media-driver
-      pkgs.vaapiIntel
-      pkgs.vaapiVdpau
-      pkgs.libvdpau-va-gl
-      pkgs.intel-compute-runtime
-    ];
-  };
+  hardware.nvidia.open = false;
+  hardware.graphics.enable = true;
+  hardware.graphics.extraPackages = [
+    pkgs.intel-media-driver
+    pkgs.vaapiIntel
+    pkgs.vaapiVdpau
+    pkgs.libvdpau-va-gl
+    pkgs.intel-compute-runtime
+  ];
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
@@ -89,8 +88,8 @@
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    # xkbVariant = "";
   };
 
   # Enable CUPS to print documents.
@@ -106,8 +105,7 @@
   ];
 
   # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -214,14 +212,14 @@ systemd.services.tailscale-autoconnect = {
     };
   };
 
-  fonts.fonts = [
+  fonts.packages = [
     pkgs.dina-font
     pkgs.fira-code
     pkgs.fira-code-symbols
     pkgs.liberation_ttf
     pkgs.mplus-outline-fonts.githubRelease
     pkgs.noto-fonts
-    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-emoji
     pkgs.proggyfonts
   ];

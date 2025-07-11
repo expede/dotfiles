@@ -148,7 +148,7 @@
       gpg-agent = {
         enable           = true;
         enableSshSupport = true;
-        pinentryFlavor   = "curses";
+        pinentry.package   = pkgs.pinentry-curses;
 
         extraConfig = ''
           pinentry-program ${pkgs.pinentry.curses}/bin/pinentry
