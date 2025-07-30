@@ -25,7 +25,7 @@
       pkgs.ispell
       # pkgs.lazyjj
       pkgs.mosh
-      pkgs.nodejs
+      # pkgs.nodejs
       pkgs.speedtest-cli
       pkgs.tokei
       pkgs.wget
