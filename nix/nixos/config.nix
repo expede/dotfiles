@@ -19,7 +19,7 @@
   boot.initrd.luks.devices."luks-c0b45b46-fd32-4f13-b237-a5c5d666f1f6".keyFile = "/crypto_keyfile.bin";
 
   # boot.kernelParams = ["resume_offset=<offset>"];
-  boot.resumeDevice = "/dev/disk/by-uuid/18e1144a-daa3-4315-a51c-848a03f70d5b";
+  # boot.resumeDevice = "/dev/disk/by-uuid/18e1144a-daa3-4315-a51c-848a03f70d5b";
   powerManagement.enable = true;
 
   networking.hostName = hostname; # Define your hostname.
