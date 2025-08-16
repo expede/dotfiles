@@ -12,6 +12,15 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.resumeDevice = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef";
+  services.logind.powerKey = "suspend-then-hibernate";
+  services.logind.lidSwitch = "ignore";
+  systemd.sleep.extraConfig = ''
+    [Sleep]
+    HibernateMode=shutdown
+  '';
+
+  hardware.nvidia.powerManagement.enable = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/18e1144a-daa3-4315-a51c-848a03f70d5b";
