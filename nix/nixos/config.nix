@@ -170,6 +170,8 @@
   environment.systemPackages = with pkgs; [
     gnomeExtensions.appindicator
     gnomeExtensions.compiz-windows-effect
+    gnomeExtensions.proton-vpn-button
+    protonvpn-gui
     tailscale
     wget
     vim
@@ -187,7 +189,10 @@
 
   # Enable the OpenSSH daemon.
   services = {
-    openssh.enable   = true;
+    openssh = {
+      enable = true;
+      settings = {};
+    };
     tailscale.enable = true;
   };
 
