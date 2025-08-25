@@ -101,33 +101,32 @@
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
-(use-package! obsidian
-  :ensure t
-  :demand t
-  :config
-  (global-obsidian-mode t)
-  ;; (obsidian-backlinks-mode t)
-  :custom
-  (obsidian-directory "~/Documents/Notes/notes/content")  ;; This is where your Obsidian notes are located
-  (markdown-enable-wiki-links t)
-
-  ;; Optional: Enable Obsidian mode in Markdown files automatically
-  (add-hook 'markdown-mode-hook 'obsidian-mode)
-
-  ;; Add a hook to enable obsidian-mode only in the correct directory
-  (add-hook 'find-file-hook 'my/enable-obsidian-if-in-vault)
-
-  ;; Keybindings (optional, using Doom leader key)
-  (map! :leader
-        :prefix "n"  ;; "n" for notes
-        :desc "Obsidian follow link" "f" #'obsidian-follow-link
-        :desc "Obsidian back link" "b" #'obsidian-backlink
-        :desc "Obsidian new note" "n" #'obsidian-new))
-
-;; (use-package! eldoc-box
-;;   :hook (lsp-mode . eldoc-box-hover-mode))
-;; 
-;; (after! eldoc
-;;   (global-eldoc-mode 1)
-;;   (setq eldoc-echo-area-use-multiline-p t)
-;;   )
+;; (use-package! obsidian
+;;   :ensure t
+;;   ;; :demand t
+;;   ;; :config (global-obsidian-mode t)
+;;   ;; (obsidian-backlinks-mode t)
+;;   ;; :custom
+;;   ;; (obsidian-directory "~/Documents/Notes/notes/content")  ;; This is where your Obsidian notes are located
+;;   ;; (markdown-enable-wiki-links t)
+;;
+;;   ;; Optional: Enable Obsidian mode in Markdown files automatically
+;;   (add-hook 'markdown-mode-hook 'obsidian-mode)
+;;
+;;   ;; Add a hook to enable obsidian-mode only in the correct directory
+;;   (add-hook 'find-file-hook 'my/enable-obsidian-if-in-vault)
+;;
+;;   ;; Keybindings (optional, using Doom leader key)
+;;   (map! :leader
+;;         :prefix "n"  ;; "n" for notes
+;;         :desc "Obsidian follow link" "f" #'obsidian-follow-link
+;;         :desc "Obsidian back link" "b" #'obsidian-backlink
+;;         :desc "Obsidian new note" "n" #'obsidian-new))
+;;
+;; ;; (use-package! eldoc-box
+;; ;;   :hook (lsp-mode . eldoc-box-hover-mode))
+;; ;;
+;; ;; (after! eldoc
+;; ;;   (global-eldoc-mode 1)
+;; ;;   (setq eldoc-echo-area-use-multiline-p t)
+;; ;;   )

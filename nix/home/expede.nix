@@ -25,7 +25,7 @@
       pkgs.ispell
       # pkgs.lazyjj
       pkgs.mosh
-      pkgs.nodejs
+      # pkgs.nodejs
       pkgs.speedtest-cli
       pkgs.tokei
       pkgs.wget
@@ -73,6 +73,10 @@
 
       gpg         = arch.gpg;
       signing-key = arch.signing-key;
+    };
+
+    zed-editor = {
+      enable = true;
     };
 
     # jujutsu = {

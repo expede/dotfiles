@@ -21,6 +21,7 @@
     "1password"
     "1password-cli"
     "arc"
+    "brave-browser"
     "discord"
     "ungoogled-chromium"
     "firefox@developer-edition"
@@ -31,11 +32,12 @@
     "mactex"
     "texstudio"
     "monodraw"
-    "nordvpn"
     "obs"
     "proton-mail"
     "proton-mail-bridge"
+    "protonvpn"
     "steam"
     "zed"
+    "zen"
   ];
 }
