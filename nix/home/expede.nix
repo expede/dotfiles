@@ -75,6 +75,10 @@
       signing-key = arch.signing-key;
     };
 
+    zed-editor = {
+      enable = true;
+    };
+
     # jujutsu = {
     #   enable = true;
     #   settings = {
