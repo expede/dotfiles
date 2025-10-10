@@ -26,7 +26,6 @@
     "ungoogled-chromium"
     "firefox@developer-edition"
     "ghostty"
-    "github"
     "iterm2"
     "loom"
     "mactex"

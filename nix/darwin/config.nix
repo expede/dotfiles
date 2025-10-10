@@ -8,7 +8,7 @@
       pkgs.home-manager
     ];
 
-  programs.zsh.enable  = true; # Default shell on Catalina
+  # programs.zsh.enable  = true; # Default shell on Catalina
   programs.fish.enable = true;
 
   # As of 25.05, Nix expects this to be 350 by default

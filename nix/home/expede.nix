@@ -25,12 +25,10 @@
       pkgs.ispell
       # pkgs.lazyjj
       pkgs.mosh
-      # pkgs.nodejs
       pkgs.speedtest-cli
       pkgs.tokei
       pkgs.wget
       unstable.copilot-language-server
-      unstable.radicle-node
 
       # Process
       pkgs.btop
@@ -43,6 +41,40 @@
       # Editors
       (pkgs.emacs.override { withNativeCompilation = false; })
     ] ++ arch.packages;
+
+    file."Library/Application Support/com.mitchellh.ghostty/config" = {
+      force = true;
+      text = ''
+        theme = dracula
+
+        font-family = Victor Mono
+        font-size = 12
+        font-thicken = true
+
+        background-opacity = 0.88
+        background-blur = 20
+        background = 1f1130
+
+        cursor-opacity = 0.5
+        cursor-color = 8be9fd
+
+        keybind = global:option+\=toggle_quick_terminal
+        quick-terminal-animation-duration = 0
+        quick-terminal-size = 100%
+
+        desktop-notifications = true
+        clipboard-read = allow
+        clipboard-write = allow
+
+        macos-icon = paper
+        macos-auto-secure-input = true
+        macos-secure-input-indication = true
+        macos-option-as-alt = true
+
+        shell-integration = detect
+        command = ${pkgs.fish}/bin/fish
+      '';
+    };
   } // homeOverrides;
 
   programs = {
@@ -54,7 +86,7 @@
 
       enableBashIntegration = true;
       enableFishIntegration = true;
-      enableZshIntegration = true;
+      # enableZshIntegration = true;
 
       settings = {
         enter_accept = true;
@@ -68,6 +100,43 @@
       shellIntegration.enableFishIntegration = true;
     };
 
+    # TODO currently marked as broken :(
+    # ghostty = {
+    #   enable = true;
+    #   enableFishIntegration = true;
+    #   enableZshIntegration = true;
+    #   settings = {
+    #     theme = "solarized";
+    #     # theme = "dracula";
+    #     quick-terminal-animation-duration = 0;
+
+    #     font-family = "Victor Mono";
+    #     font-size = 12;
+    #     font-thicken = true;
+
+    #     background-opacity = 0.88;
+    #     background-blur = 20;
+    #     background = "1f1130";
+
+    #     cursor-opacity = 0.5;
+    #     cursor-color = "8be9fd";
+
+    #     keybind = "global:option+\=toggle_quick_terminal";
+    #     macos-option-as-alt = true;
+
+    #     desktop-notifications = true;
+    #     clipboard-read = "allow";
+    #     clipboard-write = "allow";
+
+    #     macos-icon = "paper";
+    #     macos-auto-secure-input = true;
+    #     macos-secure-input-indication = true;
+
+    #     shell-integration = "detect";
+    #     command = "${pkgs.fish}/bin/fish";
+    #   };
+    # };
+
     git  = import ./git.nix {
       inherit username;
 
@@ -75,8 +144,141 @@
       signing-key = arch.signing-key;
     };
 
-    zed-editor = {
+    zellij = {
       enable = true;
+      enableFishIntegration = true;
+      enableZshIntegration = true;
+
+      settings = {
+        theme = "catppuccin-mocha";
+        default_shell = "${pkgs.fish}/bin/fish";
+      };
+
+      # Source: https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/themes/catppuccin-mocha.kdl
+      themes."catppuccin-mocha" = ''
+        themes {
+          catppuccin-mocha {
+            text_unselected {
+              base 205 214 244
+              background 24 24 37
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            text_selected {
+              base 205 214 244
+              background 88 91 112
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            ribbon_selected {
+              base 24 24 37
+              background 166 227 161
+              emphasis_0 243 139 168
+              emphasis_1 250 179 135
+              emphasis_2 245 194 231
+              emphasis_3 137 180 250
+            }
+            ribbon_unselected {
+              base 24 24 37
+              background 205 214 244
+              emphasis_0 243 139 168
+              emphasis_1 205 214 244
+              emphasis_2 137 180 250
+              emphasis_3 245 194 231
+            }
+            table_title {
+              base 166 227 161
+              background 0
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            table_cell_selected {
+              base 205 214 244
+              background 88 91 112
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            table_cell_unselected {
+              base 205 214 244
+              background 24 24 37
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            list_selected {
+              base 205 214 244
+              background 88 91 112
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            list_unselected {
+              base 205 214 244
+              background 24 24 37
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 166 227 161
+              emphasis_3 245 194 231
+            }
+            frame_selected {
+              base 166 227 161
+              background 0
+              emphasis_0 250 179 135
+              emphasis_1 137 220 235
+              emphasis_2 245 194 231
+              emphasis_3 0
+            }
+            frame_highlight {
+              base 250 179 135
+              background 0
+              emphasis_0 245 194 231
+              emphasis_1 250 179 135
+              emphasis_2 250 179 135
+              emphasis_3 250 179 135
+            }
+            exit_code_success {
+              base 166 227 161
+              background 0
+              emphasis_0 137 220 235
+              emphasis_1 24 24 37
+              emphasis_2 245 194 231
+              emphasis_3 137 180 250
+            }
+            exit_code_error {
+              base 243 139 168
+              background 0
+              emphasis_0 249 226 175
+              emphasis_1 0
+              emphasis_2 0
+              emphasis_3 0
+            }
+            multiplayer_user_colors {
+              player_1 245 194 231
+              player_2 137 180 250
+              player_3 0
+              player_4 249 226 175
+              player_5 137 220 235
+              player_6 0
+              player_7 243 139 168
+              player_8 0
+              player_9 0
+              player_10 0
+            }
+          }
+        }
+      '';
+
+      # NOTE See `xdg` for more config
     };
 
     # jujutsu = {
@@ -163,7 +365,7 @@ enable: true
       enable = true;
 
       enableFishIntegration = true;
-      enableZshIntegration  = true;
+      # enableZshIntegration  = true;
 
       settings = {
         character = {
@@ -381,6 +583,27 @@ enable: true
       };
     };
   } // arch.programs;
+
+  xdg.configFile = {
+    "zellij/layouts/clean.kdl".text = ''
+      layout {
+        pane { }
+      }
+    '';
+
+    "zellij/config.kdl".text = ''
+      keybinds {
+        normal {
+          bind "Ctrl Space" { NewTab { layout "clean"; }; }
+
+          bind "Ctrl h" { MoveFocus "Left"; }
+          bind "Ctrl l" { MoveFocus "Right"; }
+          bind "Ctrl j" { MoveFocus "Down"; }
+          bind "Ctrl k" { MoveFocus "Up"; }
+        }
+      }
+    '';
+  };
 
   services = arch.services;
 }
