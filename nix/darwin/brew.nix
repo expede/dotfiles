@@ -21,6 +21,7 @@
     "1password"
     "1password-cli"
     "arc"
+    "atuin-desktop"
     "brave-browser"
     "discord"
     "ungoogled-chromium"

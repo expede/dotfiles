@@ -101,6 +101,7 @@
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
+(display-battery-mode 1)
 ;; (use-package! obsidian
 ;;   :ensure t
 ;;   ;; :demand t
