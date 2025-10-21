@@ -23,7 +23,6 @@
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
-      # pkgs.lazyjj
       pkgs.mosh
       pkgs.speedtest-cli
       pkgs.tokei
@@ -281,18 +280,18 @@
       # NOTE See `xdg` for more config
     };
 
-    ssh = {
-      enable = true;
-      matchBlocks = {
-        "*" = {
-          extraOptions = {
-            IdentityAgent = "~/.1password/agent.sock";
-            AddKeysToAgent = "yes";
-            UseKeychain   = "yes"; # macOS nicety
-          };
-        };
-      };
-    };
+    # ssh = {
+    #   enable = true;
+    #   matchBlocks = {
+    #     "*" = {
+    #       extraOptions = {
+    #         IdentityAgent = "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+    #         AddKeysToAgent = "yes";
+    #         UseKeychain   = "yes"; # macOS
+    #       };
+    #     };
+    #   };
+    # };
 
     # jujutsu = {
     #   enable = true;

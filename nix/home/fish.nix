@@ -42,6 +42,7 @@
     set -gx LANG     en_US.UTF-8
     set -gx LC_CTYPE en_US.UTF-8
 
-    eval (ssh-agent -c) ; set -gx GPG_TTY (tty)
+    # eval (ssh-agent -c) ; set -gx GPG_TTY (tty)
+    set -gx SSH_AUTH_SOCK /Users/expede/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock
   '';
 }
