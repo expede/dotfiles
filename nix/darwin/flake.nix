@@ -10,17 +10,27 @@
 
     home-manager.url                    = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    zjstatus-flake.url = "github:dj95/zjstatus";
   };
 
-  outputs = { self, nixpkgs, unstable-pkgs, darwin, home-manager, ...}:
+  outputs = { self, nixpkgs, unstable-pkgs, darwin, home-manager, zjstatus-flake, ...}@inputs:
     let
       system        = "aarch64-darwin";
       hostname      = "Latte";
       username      = "expede";
       homeDirectory = "/Users/${username}";
 
+      inherit (inputs.nixpkgs.lib) attrValues;
+      overlays = with inputs; [
+        # ...
+        (final: prev: {
+          zjstatus = zjstatus-flake.packages.${prev.system}.default;
+        })
+      ];
+
       pkgOpts = {
-        inherit system;
+        inherit system overlays;
         config.allowUnfree = true;
       };
 
