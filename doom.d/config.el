@@ -32,7 +32,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;;;;;;;;; BROOKE'S CUTSOM THEMES
-(add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
+;; (add-to-list 'custom-theme-load-path "~/.doom.d/themes/")
 ;; (setq doom-theme 'doom-solarized-twilight)
 ;; (setq doom-theme 'doom-fairy-floss)
 ;; (setq doom-theme 'doom-moonlight)
@@ -102,6 +102,11 @@
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 
 (display-battery-mode 1)
+(after! which-key
+  (which-key-mode 1)
+  (setq which-key-idle-delay 0.2           
+        which-key-idle-secondary-delay 0.05 ; subsequent keys show faster
+        which-key-show-early-on-C-h t))  
 ;; (use-package! obsidian
 ;;   :ensure t
 ;;   ;; :demand t

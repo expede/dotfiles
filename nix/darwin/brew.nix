@@ -39,5 +39,6 @@
     "steam"
     "zed"
     "zen"
+    "zulip"
   ];
 }

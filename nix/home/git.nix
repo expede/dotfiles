@@ -31,6 +31,9 @@
       ".AppleDouble"
       ".LSOverride"
 
+      # AI
+      ".claude"
+
       # Icon must end with two \r
       "Icon"
 
