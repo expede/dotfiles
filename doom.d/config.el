@@ -103,10 +103,15 @@
 
 (display-battery-mode 1)
 (after! which-key
-  (which-key-mode 1)
-  (setq which-key-idle-delay 0.2           
-        which-key-idle-secondary-delay 0.05 ; subsequent keys show faster
-        which-key-show-early-on-C-h t))  
+  ;; (which-key-mode 1)
+  (setq! which-key-idle-delay 0.2
+         which-key-idle-secondary-delay 0.05 ; subsequent keys show faster
+         which-key-use-C-h-commands t
+         which-key-show-early-on-C-h t))
+
+(after! which-key
+  (setq! which-key-enable-extended-define-key t))
+
 ;; (use-package! obsidian
 ;;   :ensure t
 ;;   ;; :demand t

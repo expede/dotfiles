@@ -1,16 +1,19 @@
 { username, gpg, signing-key }:
   {
-    enable    = true;
-    userName  = "Brooklyn Zelenka";
-    userEmail = "hello@brooklynzelenka.com";
+    enable = true;
 
     signing = {
       key           = signing-key;
       signByDefault = true;
     };
 
-    extraConfig = {
+    settings = {
       inherit gpg;
+
+      user = {
+        name  = "Brooklyn Zelenka";
+        email = "hello@brooklynzelenka.com";
+      };
 
       commit.template      = "${../../git/gitmessage}";
       core.editor          = "vim";

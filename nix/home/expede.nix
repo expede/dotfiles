@@ -27,7 +27,10 @@
       pkgs.speedtest-cli
       pkgs.tokei
       pkgs.wget
+
+      # AI
       unstable.copilot-language-server
+      unstable.claude-code
 
       # Process
       pkgs.btop

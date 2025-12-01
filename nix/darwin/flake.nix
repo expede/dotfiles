@@ -2,19 +2,29 @@
   description = "expede's Darwin Configuration";
 
   inputs = {
-    nixpkgs.url       = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs.url       = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
     unstable-pkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
-    darwin.url                    = "github:lnl7/nix-darwin/nix-darwin-25.05";
+    darwin.url                    = "github:lnl7/nix-darwin/nix-darwin-25.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url                    = "github:nix-community/home-manager/release-25.05";
+    home-manager.url                    = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    zjstatus-flake.url = "github:dj95/zjstatus";
+    claude-code-flake.url = "github:sadjow/claude-code-nix";
+    zjstatus-flake.url  = "github:dj95/zjstatus";
   };
 
-  outputs = { self, nixpkgs, unstable-pkgs, darwin, home-manager, zjstatus-flake, ...}@inputs:
+  outputs = {
+      self,
+      nixpkgs,
+      unstable-pkgs,
+      darwin,
+      home-manager,
+      claude-code-flake,
+      zjstatus-flake,
+      ...
+  }@inputs:
     let
       system        = "aarch64-darwin";
       hostname      = "Latte";
@@ -23,7 +33,7 @@
 
       inherit (inputs.nixpkgs.lib) attrValues;
       overlays = with inputs; [
-        # ...
+        claude-code-flake.overlays.default
         (final: prev: {
           zjstatus = zjstatus-flake.packages.${prev.system}.default;
         })
