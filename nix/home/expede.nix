@@ -102,6 +102,17 @@
       shellIntegration.enableFishIntegration = true;
     };
 
+    jujutsu = {
+      enable = true;
+    };
+
+    jjui = {
+        enable = true;
+        settings = {
+            theme = "catppuccin-mocha";
+        };
+    };
+
     # TODO currently marked as broken :(
     # ghostty = {
     #   enable = true;
@@ -345,8 +356,22 @@
 
       settings = {
         character = {
-          success_symbol = "[»](bold green) ";
-          error_symbol   = "[✗](bold red) ";
+          disabled = false;
+          success_symbol = "[❯](bold fg:green)";
+          error_symbol = "[❯](bold fg:red)";
+          vimcmd_symbol = "[❮](bold fg:green)";
+          vimcmd_replace_one_symbol = "[❮](bold fg:lavender)";
+          vimcmd_replace_symbol = "[❮](bold fg:lavender)";
+          vimcmd_visual_symbol = "[❮](bold fg:yellow)";
+        };
+
+        cmd_duration = {
+          show_milliseconds = true;
+          format = " in $duration ";
+          style = "bg:lavender";
+          disabled = false;
+          show_notifications = true;
+          min_time_to_notify = 45000;
         };
 
         hostname = {
@@ -355,22 +380,140 @@
           format = "[on $hostname ]($style)";
         };
 
+        palette = "catppuccin_mocha";
         gcloud.disabled = true;
 
-        format = "[](#9A348E)$os$username$hostname$sudo[](bg:#DA627D fg:#9A348E)$directory[](fg:#DA627D bg:#FCA17D)$git_branch$git_status[](fg:#FCA17D bg:#FDFD96)$nix_shell[](fg:#FDFD96 bg:#86BBD8)$cr$elm$golang$gradle$haskell$java$julia$nodejs$nim$rust$scala[](fg:#86BBD8 bg:#06969A)$docker_context[](fg:#06969A bg:#33658A)$time[ ](fg:#33658A)";
+        # format = "[](#9A348E)$os$username$hostname$sudo[](bg:#DA627D fg:#9A348E)$directory[](fg:#DA627D bg:#FCA17D)$git_branch$git_status[](fg:#FCA17D bg:#FDFD96)$nix_shell[](fg:#FDFD96 bg:#86BBD8)$cr$elm$golang$gradle$haskell$java$julia$nodejs$nim$rust$scala[](fg:#86BBD8 bg:#06969A)$docker_context[](fg:#06969A bg:#33658A)$time[ ](fg:#33658A)";
+
+        format = "[](red)$os$username[](bg:peach fg:red)$directory[](bg:yellow fg:peach)$git_branch$git_status[](fg:yellow bg:green)$c$rust$golang$nodejs$php$java$kotlin$haskell$python[](fg:green bg:sapphire)$conda[](fg:sapphire bg:lavender)$time[ ](fg:lavender)$cmd_duration$line_break$character";
+
+        palettes.catppuccin_mocha = {
+          rosewater = "#f5e0dc";
+          flamingo = "#f2cdcd";
+          pink = "#f5c2e7";
+          mauve = "#cba6f7";
+          red = "#f38ba8";
+          maroon = "#eba0ac";
+          peach = "#fab387";
+          yellow = "#f9e2af";
+          green = "#a6e3a1";
+          teal = "#94e2d5";
+          sky = "#89dceb";
+          sapphire = "#74c7ec";
+          blue = "#89b4fa";
+          lavender = "#b4befe";
+          text = "#cdd6f4";
+          subtext1 = "#bac2de";
+          subtext0 = "#a6adc8";
+          overlay2 = "#9399b2";
+          overlay1 = "#7f849c";
+          overlay0 = "#6c7086";
+          surface2 = "#585b70";
+          surface1 = "#45475a";
+          surface0 = "#313244";
+          base = "#1e1e2e";
+          mantle = "#181825";
+          crust = "#11111b";
+        };
+
+        palettes.catppuccin_frappe = {
+          rosewater = "#f2d5cf";
+          flamingo = "#eebebe";
+          pink = "#f4b8e4";
+          mauve = "#ca9ee6";
+          red = "#e78284";
+          maroon = "#ea999c";
+          peach = "#ef9f76";
+          yellow = "#e5c890";
+          green = "#a6d189";
+          teal = "#81c8be";
+          sky = "#99d1db";
+          sapphire = "#85c1dc";
+          blue = "#8caaee";
+          lavender = "#babbf1";
+          text = "#c6d0f5";
+          subtext1 = "#b5bfe2";
+          subtext0 = "#a5adce";
+          overlay2 = "#949cbb";
+          overlay1 = "#838ba7";
+          overlay0 = "#737994";
+          surface2 = "#626880";
+          surface1 = "#51576d";
+          surface0 = "#414559";
+          base = "#303446";
+          mantle = "#292c3c";
+          crust = "#232634";
+        };
+
+
+        palettes.catppuccin_latte = {
+          rosewater = "#dc8a78";
+          flamingo = "#dd7878";
+          pink = "#ea76cb";
+          mauve = "#8839ef";
+          red = "#d20f39";
+          maroon = "#e64553";
+          peach = "#fe640b";
+          yellow = "#df8e1d";
+          green = "#40a02b";
+          teal = "#179299";
+          sky = "#04a5e5";
+          sapphire = "#209fb5";
+          blue = "#1e66f5";
+          lavender = "#7287fd";
+          text = "#4c4f69";
+          subtext1 = "#5c5f77";
+          subtext0 = "#6c6f85";
+          overlay2 = "#7c7f93";
+          overlay1 = "#8c8fa1";
+          overlay0 = "#9ca0b0";
+          surface2 = "#acb0be";
+          surface1 = "#bcc0cc";
+          surface0 = "#ccd0da";
+          base = "#eff1f5";
+          mantle = "#e6e9ef";
+          crust = "#dce0e8";
+        };
+
+        palettes.catppuccin_macchiato = {
+          rosewater = "#f4dbd6";
+          flamingo = "#f0c6c6";
+          pink = "#f5bde6";
+          mauve = "#c6a0f6";
+          red = "#ed8796";
+          maroon = "#ee99a0";
+          peach = "#f5a97f";
+          yellow = "#eed49f";
+          green = "#a6da95";
+          teal = "#8bd5ca";
+          sky = "#91d7e3";
+          sapphire = "#7dc4e4";
+          blue = "#8aadf4";
+          lavender = "#b7bdf8";
+          text = "#cad3f5";
+          subtext1 = "#b8c0e0";
+          subtext0 = "#a5adcb";
+          overlay2 = "#939ab7";
+          overlay1 = "#8087a2";
+          overlay0 = "#6e738d";
+          surface2 = "#5b6078";
+          surface1 = "#494d64";
+          surface0 = "#363a4f";
+          base = "#24273a";
+          mantle = "#1e2030";
+        };
 
         # Disable the blank line at the start of the prompt
         # add_newline = false
 
         # You can also replace your username with a neat symbol like   or disable this
         # and use the os module below
-         username = {
-           show_always = true;
-           style_user = "bg:#9A348E ${stc}";
-           style_root = "bg:#9A348E ${stc}";
-           format = "[$user ]($style)";
-           disabled = false;
-         };
+        username = {
+          show_always = true;
+          style_user = "bg:red fg:crust";
+          style_root = "bg:red fg:crust";
+          format = "[ $user]($style)";
+        };
 
         sudo = {
           style = "bg:#9A348E ${stc}";
@@ -382,57 +525,35 @@
        # An alternative to the username module which displays a symbol that
        # represents the current operating system
         os = {
-          format = "[$symbol]($style)";
-          style = "bg:#9A348E ${stc}";
+          style = "bg:red fg:crust";
           disabled = false; # Disabled by default
 
           symbols = {
-            Alpaquita = "🔔 ";
-            Alpine = "🏔️ ";
-            Amazon = "🙂 ";
-            Android = "🤖 ";
-            Arch = "🎗️ ";
-            Artix = "🎗️ ";
-            CentOS = "💠 ";
-            Debian = "🌀 ";
-            DragonFly = "🐉 ";
-            Emscripten = "🔗 ";
-            EndeavourOS = "🚀 ";
-            Fedora = "🎩 ";
-            FreeBSD = "😈 ";
-            Garuda = "🦅 ";
-            Gentoo = "🗜️ ";
-            HardenedBSD = "🛡️ ";
-            Illumos = "🐦 ";
-            Linux = "🐧 ";
-            Mabox = "📦 ";
-            Macos = "🍎 ";
-            Manjaro = "🥭 ";
-            Mariner = "🌊 ";
-            MidnightBSD = "🌘 ";
-            Mint = "🌿 ";
-            NetBSD = "🚩 ";
-            NixOS = "❄️ ";
-            OpenBSD = "🐡 ";
-            OpenCloudOS = "☁️ ";
-            openEuler = "🦉 ";
-            openSUSE = "🦎 ";
-            OracleLinux = "🦴 ";
-            Pop = "🍭 ";
-            Raspbian = "🍓 ";
-            Redhat = "🎩 ";
-            RedHatEnterprise = "🎩 ";
-            Redox = "🧪 ";
-            Solus = "⛵ ";
-            SUSE = "🦎 ";
-            Ubuntu = "🎯 ";
-            Unknown = "❓ ";
-            Windows = "🪟 ";
+            Windows = "";
+            Ubuntu = "󰕈";
+            SUSE = "";
+            Raspbian = "󰐿";
+            Mint = "󰣭";
+            Macos = "󰀵";
+            Manjaro = "";
+            Linux = "󰌽";
+            Gentoo = "󰣨";
+            Fedora = "󰣛";
+            Alpine = "";
+            Amazon = "";
+            Android = "";
+            AOSC = "";
+            Arch = "󰣇";
+            Artix = "󰣇";
+            CentOS = "";
+            Debian = "󰣚";
+            Redhat = "󱄛";
+            RedHatEnterprise = "󱄛";
           };
         };
 
         directory = {
-          style = "bg:#DA627D ${stc}";
+          style = "bg:peach fg:crust";
           format = "[ $path ]($style)";
           truncation_length = 3;
           truncation_symbol = "…/";
@@ -445,6 +566,7 @@
           "Downloads" = " ";
           "Music" = " ";
           "Pictures" = " ";
+          "Developer" = "󰲋 ";
           # Keep in mind that the order matters. For example:
           # "Important Documents" = " 󰈙 "
           # will not be replaced, because "Documents" was already substituted before.
@@ -452,110 +574,84 @@
           # "Important 󰈙 " = " 󰈙 "
         };
 
-        c = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        docker_context = {
-          symbol = " ";
-          style = "bg:#06969A ${stc}";
-          format = "[ $symbol $context ]($style) $path";
-        };
-
-        elixir = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        elm = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
         git_branch = {
           symbol = "";
-          style = "bg:#FCA17D ${stc}";
-          format = "[ $symbol $branch ]($style)";
+          style = "bg:yellow";
+          format = "[[ $symbol $branch ](fg:crust bg:yellow)]($style)";
         };
 
         git_status = {
-          style = "bg:#FCA17D ${stc}";
-          format = "[$all_status$ahead_behind ]($style)";
-        };
-
-        golang = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        gradle = {
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        haskell = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        java = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        julia = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        nodejs = {
-          symbol = "";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        nim = {
-          symbol = "󰆥 ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        rust = {
-          symbol = "";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
-        };
-
-        scala = {
-          symbol = " ";
-          style = "bg:#86BBD8 ${stc}";
-          format = "[ $symbol ($version) ]($style)";
+          style = "bg:yellow";
+          format = "[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)";
         };
 
         nix_shell = {
           format = "[ $symbol$state( \($name\)) ]($style)";
-          style = "bg:#fdfd96 ${stc}";
-          symbol = "❄️ ";
+          style = "bg:blue";
+          symbol = "❄️";
           impure_msg = "impure";
           pure_msg = "pure";
           unknown_msg = "unknown if pure";
           disabled = false;
         };
 
+        nodejs = {
+          symbol = "";
+          style = "bg:green";
+          format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        };
+
+        c = {
+          symbol = " ";
+          style = "bg:green";
+          format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        };
+
+        rust = {
+          symbol = "";
+          style = "bg:green";
+          format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        };
+
+        golang = {
+          symbol = "";
+          style = "bg:green";
+          format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        };
+
+        haskell = {
+          symbol = "";
+          style = "bg:green";
+          format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
+        };
+
+        python = {
+          symbol = "";
+          style = "bg:green";
+          format = "[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)";
+        };
+
+        docker_context = {
+          symbol = "";
+          style = "bg:sapphire";
+          format = "[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)";
+        };
+
+        conda = {
+          symbol = "  ";
+          style = "fg:crust bg:sapphire";
+          format = "[$symbol$environment ]($style)";
+          ignore_base = false;
+        };
+
         time = {
           disabled = false;
-          time_format = "%R"; # Hour:Minute Format
-          style = "bg:#33658A ${stc}";
-          format = "[ 🕐 $time ]($style)";
+          time_format = "%R";
+          style = "bg:lavender";
+          format = "[[  $time ](fg:crust bg:lavender)]($style)";
         };
+
+        line_break.disabled = true;
       };
     };
   } // arch.programs;

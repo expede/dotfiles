@@ -62,6 +62,9 @@
       # Nix
       "result"
 
+      # Jujutsu
+      ".jj"
+
       # End of https://www.toptal.com/developers/gitignore/api/macos
     ];
   }
