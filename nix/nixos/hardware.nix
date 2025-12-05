@@ -12,6 +12,16 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.resumeDevice = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef";
+  services.logind.powerKey = "suspend-then-hibernate";
+  services.logind.lidSwitch = "ignore";
+  systemd.sleep.extraConfig = ''
+    AllowSuspend=true
+    AllowHibernation=no
+    AllowSuspendThenHibernate=no
+  '';
+
+  hardware.nvidia.powerManagement.enable = true;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/18e1144a-daa3-4315-a51c-848a03f70d5b";
@@ -26,7 +36,14 @@
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef"; }
+    [ 
+      { 
+        device = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef"; 
+      }
+      {
+        device = "/var/lib/swapfile";
+        size = 75 * 1024;
+      }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -34,10 +51,9 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  networking.interfaces.enp4s0.wakeOnLan.enable = true;
   # networking.interfaces.enp3s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  # high-resolution display
-  # hardware.video.hidpi.enable = lib.mkDefault true;
 }
