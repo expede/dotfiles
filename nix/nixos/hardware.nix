@@ -16,8 +16,9 @@
   services.logind.powerKey = "suspend-then-hibernate";
   services.logind.lidSwitch = "ignore";
   systemd.sleep.extraConfig = ''
-    [Sleep]
-    HibernateMode=shutdown
+    AllowSuspend=true
+    AllowHibernation=no
+    AllowSuspendThenHibernate=no
   '';
 
   hardware.nvidia.powerManagement.enable = true;

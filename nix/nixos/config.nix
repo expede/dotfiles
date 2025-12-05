@@ -45,12 +45,12 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
   hardware.graphics = {
-    enable          = true;
-    enable32Bit = true;
-    extraPackages   = [
+    enable        = true;
+    enable32Bit   = true;
+    extraPackages = [
       pkgs.intel-media-driver
-      pkgs.vaapiIntel
-      pkgs.vaapiVdpau
+      pkgs.intel-vaapi-driver
+      pkgs.libva-vdpau-driver
       pkgs.libvdpau-va-gl
       pkgs.intel-compute-runtime
     ];
@@ -62,7 +62,8 @@
 
     powerManagement.enable = true; # 2025 Feb 16 enabling may cause sleep to fail
     powerManagement.finegrained = false; # 2025 Feb 16 enabling may cause sleep to fail
-    open = true;
+    open = false;
+    nvidiaPersistenced = true;
   };
 
   # Enable the GNOME Desktop Environment.
@@ -229,8 +230,10 @@
   networking.firewall.allowedTCPPorts = [ 8096 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
-  services.transmission.enable = true;
-
+  services.transmission = {
+    enable  = true;
+    package = pkgs.transmission_4;
+  };
 
   programs = {
     steam = {
@@ -248,7 +251,7 @@
     pkgs.liberation_ttf
     pkgs.mplus-outline-fonts.githubRelease
     pkgs.noto-fonts-cjk-sans
-    pkgs.noto-fonts-emoji
+    pkgs.noto-fonts-color-emoji
     pkgs.proggyfonts
   ];
 
