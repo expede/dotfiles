@@ -20,6 +20,7 @@
     packages = [
       pkgs.cachix
       pkgs.coreutils
+      pkgs.fastfetch
       pkgs.fd
       pkgs.font-awesome
       pkgs.ispell
