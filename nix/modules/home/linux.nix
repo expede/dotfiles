@@ -82,7 +82,7 @@ in {
         opacity          = 0.85
         success_color    = "${green}"
         text_color       = "${text}"
-        workspace_colors = [ "#fab387", "#b4befe", "#cba6f7" ]
+        workspace_colors = [ "${mauve}", "${pink}", "${blue}" ]
 
         [appearance.primary_color]
         base = "#fab387"
