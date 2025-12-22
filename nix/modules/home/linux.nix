@@ -329,13 +329,26 @@ in {
     };
 
     mako.enable = true;
-
     hyprpaper = {
       enable = true;
       settings = {
         preload   = [ "${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg" ];
         wallpaper = [ ",${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg" ];
         splash    = false;
+      };
+    };
+
+    hyprshell = {
+      enable = true;
+      settings = {
+        windows = {
+          scale = 1.0;
+          # overview = {
+          #   launcher.max_items = 6;
+          # };
+
+          switch.modifier = "super";
+        };
       };
     };
   };
@@ -349,11 +362,10 @@ in {
       # Startup
       "exec-once" = [
         "ashell"
-        # "waybar"
+        "hyprshell run &"
         "mako"
-        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type text  --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
-        # "hyprpaper"
         "swww init"
         "swww img ${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg --transition-type wipe --transition-duration 0.8"
       ];
@@ -438,15 +450,18 @@ in {
             "$mod SHIFT, Down,  movewindow, d"
 
             # Workspaces
-            "$mod,       1, workspace,       1"
-            "$mod,       2, workspace,       2"
-            "$mod,       3, workspace,       3"
-            "$mod,       4, workspace,       4"
-            "$mod,       5, workspace,       5"
-            "$mod,       6, workspace,       6"
-            "$mod,       7, workspace,       7"
-            "$mod,       8, workspace,       8"
-            "$mod,       9, workspace,       9"
+            "$mod,       1,     workspace,    1"
+            "$mod,       2,     workspace,    2"
+            "$mod,       3,     workspace,    3"
+            "$mod,       4,     workspace,    4"
+            "$mod,       5,     workspace,    5"
+            "$mod,       6,     workspace,    6"
+            "$mod,       7,     workspace,    7"
+            "$mod,       8,     workspace,    8"
+            "$mod,       9,     workspace,    9"
+            "$mod,       Left,  workspace,    m-1"
+            "$mod,       Right, workspace,    m+1"
+
             "$mod SHIFT, 1, movetoworkspace, 1"
             "$mod SHIFT, 2, movetoworkspace, 2"
             "$mod SHIFT, 3, movetoworkspace, 3"
