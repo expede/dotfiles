@@ -1,8 +1,10 @@
 { config, lib, pkgs, hostname, ... }: {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware.nix
+    # Shared nix configuration
+    ../config.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable      = true;
@@ -67,7 +69,7 @@
   };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver = {
+  services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
@@ -117,11 +119,6 @@
   services.jellyfin = {
     enable = true;
   };
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
 
   # Enable sound with pipewire.
   # sound.enable = true;
