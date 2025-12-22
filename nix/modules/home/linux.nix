@@ -364,7 +364,8 @@ in {
         gaps_in     = 6;
         gaps_out    = 14;
         border_size = 2;
-        "col.active_border"   = "rgba(89b4faee) rgba(cba6f7ee) 45deg";
+        "col.active_border"   = "rgba(f5c2e7ee) rgba(cba6f7ee) 45deg";
+        # "col.active_border"   = "rgba(89b4faee) rgba(cba6f7ee) 45deg";
         "col.inactive_border" = "rgba(45475aaa)";
         resize_on_border = true;
         extend_border_grab_area = 15;
