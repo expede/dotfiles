@@ -14,6 +14,10 @@
 
     claude-code-flake.url = "github:sadjow/claude-code-nix";
     zjstatus-flake.url    = "github:dj95/zjstatus";
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -24,6 +28,7 @@
     darwin,
     home-manager,
     claude-code-flake,
+    zen-browser,
     zjstatus-flake,
     ...
   }@inputs:
