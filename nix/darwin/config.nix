@@ -1,6 +1,13 @@
-{ pkgs, homeDirectory, ... }: {
-  homebrew = import ./brew.nix    {};
-  nix      = import ../config.nix { inherit pkgs; };
+{ pkgs, homeDirectory, hostname, ... }: {
+  imports =
+    [ ../config.nix
+    ];
+
+  nix.extraOptions = ''
+    extra-platforms = x86_64-darwin aarch64-darwin
+  '';
+
+  homebrew = import ./brew.nix {};
 
   environment.systemPackages =
     [ pkgs.vim
@@ -20,6 +27,7 @@
   };
 
   system = {
+    stateVersion = 6;
     primaryUser = "expede";
     defaults = {
       dock = {

@@ -8,13 +8,21 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "uas" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
-  boot.resumeDevice = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef";
-  services.logind.powerKey = "suspend-then-hibernate";
-  services.logind.lidSwitch = "ignore";
+  boot = {
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
+    resumeDevice = "/dev/disk/by-uuid/82781f4e-8e91-4687-927d-7c870058cdef";
+    initrd = {
+      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "uas" "sd_mod" ];
+      kernelModules = [ ];
+    };
+  };
+
+  services.logind.settings.Login = {
+    HandlePowerKey = "suspend-then-hibernate";
+    HandleLidSwitch = "ignore";
+  };
+
   systemd.sleep.extraConfig = ''
     AllowSuspend=true
     AllowHibernation=no
