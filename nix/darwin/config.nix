@@ -1,8 +1,11 @@
 { pkgs, homeDirectory, hostname, ... }: {
   imports =
     [ ../config.nix
-      ../darwin-config.nix  # Darwin-specific nix options
     ];
+
+  nix.extraOptions = ''
+    extra-platforms = x86_64-darwin aarch64-darwin
+  '';
 
   homebrew = import ./brew.nix {};
 
