@@ -28,6 +28,7 @@ in {
 
   home = {
     packages = [
+      pkgs.ashell
       pkgs.blueberry # Bluetooth
       pkgs.brightnessctl
       pkgs.cider
@@ -44,6 +45,7 @@ in {
       pkgs.material-design-icons
       pkgs.nodejs
       pkgs.obsidian
+      pkgs.nautilus
       pkgs.pavucontrol # Audio
       pkgs.playerctl
       pkgs.slurp
@@ -74,6 +76,33 @@ in {
     enable = true;
 
     configFile = {
+      "ashell/config.toml".text = ''
+        [appearance]
+        style   = "Islands"
+        opacity = 0.85
+
+        success_color = "${green}"
+        text_color    = "${text}"
+        workspace_colors = [ "#fab387", "#b4befe", "#cba6f7" ]
+
+        [appearance.primary_color]
+        base = "#fab387"
+        text = "#1e1e2e"
+
+        [appearance.danger_color]
+        base = "#f38ba8"
+        weak = "#f9e2af"
+
+        [appearance.background_color]
+        base   = "#1e1e2e"
+        weak   = "#313244"
+        strong = "#45475a"
+
+        [appearance.menu]
+        opacity  = 0.75
+        backdrop = 0.30
+      '';
+
       "wofi/style.css".text = ''
         window {
           margin: 0px;
@@ -320,7 +349,8 @@ in {
     settings = {
       # Startup
       "exec-once" = [
-        "waybar"
+        "ashell"
+        # "waybar"
         "mako"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
@@ -337,6 +367,8 @@ in {
         border_size = 2;
         "col.active_border"   = "rgba(89b4faee) rgba(cba6f7ee) 45deg";
         "col.inactive_border" = "rgba(45475aaa)";
+        resize_on_border = true;
+        extend_border_grab_area = 15;
       };
 
       decoration = {
@@ -427,6 +459,12 @@ in {
 
             # Screenshots
             ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +%F-%T).png"
+          ];
+
+          bindm = [
+            # Resize
+            "$mod, mouse:272, movewindow"
+            "$mod, mouse:273, resizewindow"
           ];
 
           bindl = [
