@@ -8,6 +8,21 @@ let
     pulseSupport  = true;
   };
 
+  # Catppuccin
+  base     = "#1e1e2e";
+  mantle   = "#181825";
+  crust    = "#11111b";
+  text     = "#cdd6f4";
+  subtext  = "#bac2de";
+  surface0 = "#313244";
+  surface1 = "#45475a";
+  blue     = "#89b4fa";
+  mauve    = "#cba6f7";
+  pink     = "#f5c2e7";
+  red      = "#f38ba8";
+  green    = "#a6e3a1";
+  yellow   = "#f9e2af";
+
 in {
   home.file.".wallpaper.jpg".source = ../../../wallpaper/lofi-cafe.jpg;
 
@@ -50,15 +65,230 @@ in {
       gtk.enable = true;
       x11.enable = true; # Still needed for Wayland
     };
+
   };
 
-  gtk = {
+  gtk.enable = true;
+
+  xdg = {
     enable = true;
+
+    configFile = {
+      "wofi/style.css".text = ''
+        window {
+          margin: 0px;
+          padding: 10px;
+          background-color: rgba(30, 30, 46, 0.92);
+          border-radius: 16px;
+          border: 2px solid rgba(137, 180, 250, 0.60)
+          color: #cdd6f4;
+          font-size: 15px;
+        }
+
+        #input {
+          margin: 6px;
+          padding: 10px 12px;
+          border-radius: 12px;
+          border: 1px solid rgba(49, 50, 68, 1.0);
+          background-color: rgba(24, 24, 37, 0.75);
+          color: #cdd6f4;
+        }
+
+        #inner-box {
+          margin: 6px;
+        }
+
+        #outer-box {
+          margin: 0px;
+        }
+
+        #entry {
+          padding: 8px 10px;
+          margin: 2px 6px;
+          border-radius: 10px;
+          color: #cdd6f4;
+        }
+
+        #entry:selected {
+          background: rgba(49, 50, 68, 0.85);
+          border: 1px solid rgba(203, 166, 247, 0.6);
+        }
+
+        text {
+          margin-left: 6px;
+        }
+
+        #img {
+          margin-right: 6px;
+        }
+      '';
+
+      "wofi/config".text = ''
+        show=drun
+        prompt=Run
+        width=520
+        lines=8
+        allow_images=true
+        image_size=24
+        insensitive=true
+      '';
+    };
   };
 
   programs = {
     ghostty.enable = true;
-    waybar.enable = true;
+
+    waybar = {
+      enable = true;
+      settings = [
+        {
+          layer = "top";
+          positon = "top";
+          height = 34;
+          spacing = 8;
+
+          modules-left = [
+            "hyprland/workspaces"
+            "hyprland/window"
+          ];
+
+          modules-center = [ "clock" ];
+
+          modules-right = [
+            "pulseaudio"
+            "network"
+            "cpu"
+            "memory"
+            "battery"
+            "tray"
+          ];
+
+          "hyprland/workspaces" = {
+            disable-scroll = true;
+            all-outputs = true;
+            format = "{name}";
+          };
+
+          "hyprland/window" = {
+            max-length = 60;
+            separate-outputs = true;
+          };
+
+          clock = {
+            format = "{:%a %b %d  %H:%M}";
+            tooltip-format = "<big>{:%Y-%m-%d}</big>\n<tt>{calendar}</tt>";
+          };
+
+          network = {
+            format-wifi = "W {signalStrength}%";
+            format-ethernet = "E {ipaddr}";
+            format-disconnected = "N down";
+            tooltip = true;
+          };
+
+          cpu = {
+            format = "C {usage}%";
+          };
+
+          memory = {
+            format = "M {percentage}%";
+          };
+
+          battery = {
+            format = "{capacity}% {icon}";
+            # format-icons = []
+          };
+
+          tray = {
+            spacing = 8;
+          };
+        }
+      ];
+
+       style = ''
+         * {
+           border: none;
+           border-radius: 0;
+           min-height: 0;
+           font-family: Inter, "JetBrains Mono", "Noto Sans", sans-serif;
+           font-size: 13px;
+           padding: 0;
+           margin: 0;
+         }
+
+         window#waybar {
+           background: rgba(30, 30, 46, 0.72);
+           color: ${text};
+           border-bottom: 1px solid rgba(69, 71, 90, 0.55);
+         }
+
+         .modules-left, .modules-center, .modules-right {
+           margin: 6px 10px;
+         }
+
+         #workspaces, #window, #clock, #network, #pulseaudio, #cpu, #memory, #battery, #tray {
+           background: rgba(24, 24, 37, 0.70);
+           color: ${text};
+           margin: 4px 6px;
+           padding: 6px 10px;
+           border-radius: 12px;
+           border: 1px solid rgba(49, 50, 68, 0.80);
+         }
+
+         #workspaces {
+           padding: 4px 8px;
+         }
+
+         #workspaces button {
+           background: transparent;
+           color: ${subtext};
+           padding: 0 8px;
+           margin: 2px 3px;
+           border-radius: 10px;
+           border: 1px solid transparent;
+         }
+
+         #workspaces button.active {
+           color: ${text};
+           border: 1px solid rgba(243, 139, 168, 0.70);
+           background: rgba(243, 139, 168, 0.15);
+         }
+
+         #workspace button:hover {
+           border: 1px solid rgba(203, 166, 247, 0.65);
+           background: rgba(203, 166, 247, 0.12);
+         }
+
+         #clock {
+           border: 1px solid rgba(203, 166, 247, 0.65);
+           background: rgba(203, 166, 247, 0.12);
+         }
+
+         #pulseaudio {
+           border: 1px solid rgba(245, 194, 231, 0.50);
+         }
+
+         #network {
+           border: 1px solid rgba(137, 180, 250, 0.50);
+         }
+
+         #battery {
+           border: 1px solid rgba(166, 227, 161, 0.45);
+         }
+
+         #tray {
+           padding-right: 8px;
+         }
+
+         tooltip {
+           background: rgba(17, 17, 27, 0.92);
+           color: ${text};
+           border-radius: 12px;
+           border: 1px solid rgba(69, 71, 90, 0.65);
+           padding: 8px;
+         }
+       '';
+    };
   };
 
   services = {
