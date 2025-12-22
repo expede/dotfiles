@@ -28,7 +28,7 @@
     ...
   }@inputs:
     let
-      mkSystem = { system, hostname, username, homeDirectory, nixpkgsInput, isDarwin ? false }:
+      mkSystem = { system, hostname, username, homeDirectory, isDarwin ? false }:
         let
           overlays = with inputs; [
             claude-code-flake.overlays.default
@@ -109,7 +109,6 @@
         hostname      = "Latte";
         username      = "expede";
         homeDirectory = "/Users/expede";
-        nixpkgsInput  = nixpkgs-darwin;
         isDarwin      = true;
       };
 
@@ -118,11 +117,7 @@
         hostname      = "mocha";
         username      = "expede";
         homeDirectory = "/home/expede";
-        nixpkgsInput  = nixpkgs;
         isDarwin      = false;
       };
-
-      # darwinPackages = self.darwinConfigurations."Latte".pkgs;
-      # nixosPackages  = self.nixosConfigurations."mocha".pkgs;
     };
 }
