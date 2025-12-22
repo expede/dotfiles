@@ -84,21 +84,21 @@
     #media-session.enable = true;
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.expede = {
     isNormalUser = true;
     description = "Brooklyn Zelenka";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      firefox-devedition
-      git
-      gh
-      github-copilot-cli
-      _1password-cli
-      localsearch
-      jellyfin
-      jellyfin-web
-      jellyfin-ffmpeg
+    packages = [
+      pkgs.firefox-devedition
+      pkgs.git
+      pkgs.gh
+      pkgs.github-copilot-cli
+      pkgs._1password-cli
+      pkgs.localsearch
+      pkgs.jellyfin
+      pkgs.jellyfin-web
+      pkgs.jellyfin-ffmpeg
     ];
   };
 
@@ -115,7 +115,6 @@
     pkgs.tailscale
     pkgs.wget
     pkgs.vim
-    zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

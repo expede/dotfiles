@@ -33,6 +33,7 @@ in {
     pkgs.waybar
     pkgs.wofi
     pkgs.wl-clipboard
+    pkgs.zen-browser
     pkgs.zoom-us
   ];
 
@@ -50,7 +51,7 @@ in {
         "$mod, SPACE, exec, wofi --show drun"
         ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +%F-%T).png"
       ] ++ (
-        builtins.consatLists (
+        builtins.concatLists (
           builtins.genList (i:
             let
               ws = i + 1;
@@ -62,13 +63,14 @@ in {
           )
         9)
       );
+
+      "exec-once" = [
+        "${pkgs.mako}/bin/mako"
+        "${pkgs.waybar}/bin/waybar"
+      ];
     };
 
     plugins = [];
-    exec-once = [
-      "${pkgs.mako}.bin/mako"
-      "${pkgs.waybar}/bin/waybar"
-    ];
   };
 
   services = {

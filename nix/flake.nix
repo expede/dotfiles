@@ -35,10 +35,11 @@
     let
       mkSystem = { system, hostname, username, homeDirectory, isDarwin ? false }:
         let
-          overlays = with inputs; [
-            claude-code-flake.overlays.default
+          overlays = [
+            inputs.claude-code-flake.overlays.default
             (final: prev: {
-              zjstatus = zjstatus-flake.packages.${prev.system}.default;
+              zjstatus = inputs.zjstatus-flake.packages.${prev.system}.default;
+              zen-browser = inputs.zen-browser.packages.${prev.system}.default;
             })
           ];
 
