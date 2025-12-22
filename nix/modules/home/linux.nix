@@ -25,6 +25,7 @@ in {
       pkgs.guake
       pkgs.hyprpaper
       pkgs.killall
+      pkgs.loupe
       pkgs.material-design-icons
       pkgs.nodejs
       pkgs.obsidian
@@ -32,6 +33,7 @@ in {
       pkgs.playerctl
       pkgs.slurp
       pkgs.swappy
+      pkgs.swww
       pkgs.transmission_4
       pkgs.waybar
       pkgs.wofi
@@ -73,9 +75,9 @@ in {
     hyprpaper = {
       enable = true;
       settings = {
-        preload = [ "${config.home.homeDirectory}/Pictures/Wallpaper/z5t6m4jyp1n71.png" ];
-        wallpaper = [ "${config.home.homeDirectory}/Pictures/Wallpaper/z5t6m4jyp1n71.png" ];
-        splash = false;
+        preload   = [ "${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg" ];
+        wallpaper = [ ",${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg" ];
+        splash    = false;
       };
     };
   };
@@ -92,7 +94,9 @@ in {
         "mako"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
-        "hyprpaper"
+        # "hyprpaper"
+        "swww init"
+        "swww img ${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg --transition-type wipe --transition-duration 0.8"
       ];
 
       # Look & Feel
@@ -113,7 +117,8 @@ in {
           size    = 6;
           passes  = 3;
           new_optimizations = true;
-          ignore_opacity    = true;
+          ignore_opacity    = false;
+          # ignore_opacity    = true;
         };
 
         shadow = {
@@ -130,11 +135,11 @@ in {
           ];
 
           animation = [
-            "windows,    1, 6, easeOut,   slide"
-            "windowsOut, 1, 6, easeOut,   slide"
-            "border,     1, 8, easeInOut"
-            "fade,       1, 6, easeInOut"
-            "workspaces, 1, 6, easeOut,   slide"
+            "windows,    1, 3, easeOut,   slide"
+            "windowsOut, 1, 3, easeOut,   slide"
+            "border,     1, 4, easeInOut"
+            "fade,       1, 3, easeInOut"
+            "workspaces, 1, 3, easeOut,   slide"
           ];
 
           # Keys
@@ -216,7 +221,10 @@ in {
             "float, class:^(pavucontrol)$"
             "float, class:^(org\\.gnome\\.Calculator)$"
             "suppressevent maximize, class:.*"
+            "opacity 0.92 0.80,class:.*"
           ];
+
+          misc = {};
         };
       };
 
