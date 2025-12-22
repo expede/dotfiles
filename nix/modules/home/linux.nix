@@ -78,11 +78,10 @@ in {
     configFile = {
       "ashell/config.toml".text = ''
         [appearance]
-        style   = "Islands"
-        opacity = 0.85
-
-        success_color = "${green}"
-        text_color    = "${text}"
+        style            = "Islands"
+        opacity          = 0.85
+        success_color    = "${green}"
+        text_color       = "${text}"
         workspace_colors = [ "#fab387", "#b4befe", "#cba6f7" ]
 
         [appearance.primary_color]
