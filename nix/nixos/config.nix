@@ -20,8 +20,6 @@
   boot.initrd.luks.devices."luks-c0b45b46-fd32-4f13-b237-a5c5d666f1f6".device = "/dev/disk/by-uuid/c0b45b46-fd32-4f13-b237-a5c5d666f1f6";
   boot.initrd.luks.devices."luks-c0b45b46-fd32-4f13-b237-a5c5d666f1f6".keyFile = "/crypto_keyfile.bin";
 
-  # boot.kernelParams = ["resume_offset=<offset>"];
-  # boot.resumeDevice = "/dev/disk/by-uuid/18e1144a-daa3-4315-a51c-848a03f70d5b";
   powerManagement.enable = true;
 
   networking.hostName = hostname; # Define your hostname.
@@ -45,27 +43,10 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.videoDrivers = lib.mkDefault ["nvidia"];
+  services.xserver.videoDrivers = lib.mkDefault ["amdgpu"];
   hardware.graphics = {
     enable        = true;
     enable32Bit   = true;
-    extraPackages = [
-      pkgs.intel-media-driver
-      pkgs.intel-vaapi-driver
-      pkgs.libva-vdpau-driver
-      pkgs.libvdpau-va-gl
-      pkgs.intel-compute-runtime
-    ];
-  };
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    nvidiaSettings = true;
-
-    powerManagement.enable = true; # 2025 Feb 16 enabling may cause sleep to fail
-    powerManagement.finegrained = false; # 2025 Feb 16 enabling may cause sleep to fail
-    open = false;
-    nvidiaPersistenced = true;
   };
 
   # Enable the GNOME Desktop Environment.
@@ -73,38 +54,6 @@
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
-
-  #services.xserver.desktopManager.wallpaper = {
-
-  # };
-
-  # Enable the XMonad window manager
-  # services.xserver.windowManager.xmonad = {
-  #   enable                 = true;
-  #   enableContribAndExtras = true;
-
-  #   config = builtins.readFile ../../XMonad/Main.hs;
-
-  #   extraPackages = haskellPackages: [
-  #     haskellPackages.dbus
-  #     haskellPackages.flow
-  #     haskellPackages.List
-  #     haskellPackages.monad-logger
-  #   ];
-  # };
-
-  # Let XMonad sleep
-  # services.xserver.displayManager.sessionCommands = ''
-  #  xset -dpms  # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
-  #  xset s blank # `noblank` may be useful for debugging
-  #  xset s 300 # seconds
-  #  ${pkgs.lightlocker}/bin/light-locker --idle-hint &
-  #'';
-  #systemd.targets.hybrid-sleep.enable = true;
-  #services.logind.extraConfig = ''
-  #  IdleAction=hybrid-sleep
-  #  IdleActionSec=20s
-  #'';
 
   # Configure keymap in X11
   services.xserver = {
@@ -120,59 +69,49 @@
     enable = true;
   };
 
-  # Enable sound with pipewire.
-  # sound.enable = true;
-  services.pulseaudio.enable = false;
+  # services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
+
     alsa.enable = true;
     alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
+    pulse.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.expede = {
     isNormalUser = true;
     description = "Brooklyn Zelenka";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      firefox-devedition
-      git
-      gh
-      github-copilot-cli
-      _1password-cli
-      localsearch
-      jellyfin
-      jellyfin-web
-      jellyfin-ffmpeg
+    packages = [
+      pkgs.firefox-devedition
+      pkgs.git
+      pkgs.gh
+      pkgs.github-copilot-cli
+      pkgs._1password-cli
+      pkgs.localsearch
+      pkgs.jellyfin
+      pkgs.jellyfin-web
+      pkgs.jellyfin-ffmpeg
     ];
   };
-
- # home-manager.users.expede = import /home/expede/Documents/dotfiles/nixpkgs/home.nix;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    gnomeExtensions.appindicator
-    gnomeExtensions.compiz-windows-effect
-    gnomeExtensions.proton-vpn-button
-    protonvpn-gui
-    tailscale
-    wget
-    vim
+  environment.systemPackages = [
+    pkgs.gnomeExtensions.appindicator
+    pkgs.gnomeExtensions.compiz-windows-effect
+    pkgs.gnomeExtensions.proton-vpn-button
+    pkgs.protonvpn-gui
+    pkgs.tailscale
+    pkgs.wget
+    pkgs.vim
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -194,34 +133,6 @@
     tailscale.enable = true;
   };
 
-  # expede:
-  # create a oneshot job to authenticate to Tailscale
-# systemd.services.tailscale-autoconnect = {
-#   description = "Automatic connection to Tailscale";
-# 
-#   # make sure tailscale is running before trying to connect to tailscale
-#   after = [ "network-pre.target" "tailscale.service" ];
-#   wants = [ "network-pre.target" "tailscale.service" ];
-#   wantedBy = [ "multi-user.target" ];
-# 
-#   # set this service as a oneshot job
-#   serviceConfig.Type = "oneshot";
-# 
-#   # have the job run this shell script
-#   script = with pkgs; ''
-#     # wait for tailscaled to settle
-#     sleep 2
-# 
-#     # check if we are already authenticated to tailscale
-#     status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
-#     if [ $status = "Running" ]; then # if so, then do nothing
-#       exit 0
-#     fi
-# 
-#     # otherwise authenticate with tailscale
-#     ${tailscale}/bin/tailscale up -authkey tskey-auth-kejokE6CNTRL-rSHKwrvyq2iitQRPhth4zhStFEikfzXVj
-#   '';
-# };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 8096 ];
@@ -239,6 +150,23 @@
       remotePlay.openFirewall      = true;
       dedicatedServer.openFirewall = true;
     };
+
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+    };
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+  };
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
   };
 
   fonts.packages = [

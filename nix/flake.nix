@@ -14,6 +14,10 @@
 
     claude-code-flake.url = "github:sadjow/claude-code-nix";
     zjstatus-flake.url    = "github:dj95/zjstatus";
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -24,16 +28,18 @@
     darwin,
     home-manager,
     claude-code-flake,
+    zen-browser,
     zjstatus-flake,
     ...
   }@inputs:
     let
       mkSystem = { system, hostname, username, homeDirectory, isDarwin ? false }:
         let
-          overlays = with inputs; [
-            claude-code-flake.overlays.default
+          overlays = [
+            inputs.claude-code-flake.overlays.default
             (final: prev: {
-              zjstatus = zjstatus-flake.packages.${prev.system}.default;
+              zjstatus = inputs.zjstatus-flake.packages.${prev.system}.default;
+              zen-browser = inputs.zen-browser.packages.${prev.system}.default;
             })
           ];
 
