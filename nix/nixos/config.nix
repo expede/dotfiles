@@ -153,6 +153,8 @@
       remotePlay.openFirewall      = true;
       dedicatedServer.openFirewall = true;
     };
+
+    hyprland.enable = true;
   };
 
   fonts.packages = [
