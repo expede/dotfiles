@@ -11,33 +11,44 @@ let
 in {
   home.file.".wallpaper.jpg".source = ../../../wallpaper/lofi-cafe.jpg;
 
-  home.packages = [
-    pkgs.blueberry # Bluetooth
-    pkgs.brightnessctl
-    pkgs.cider
-    pkgs.cliphist
-    pkgs.conky
-    pkgs.discord
-    pkgs.feh
-    pkgs.fuzzel
-    pkgs.grim
-    pkgs.guake
-    pkgs.hyprpaper
-    pkgs.killall
-    pkgs.material-design-icons
-    pkgs.nodejs
-    pkgs.obsidian
-    pkgs.pavucontrol # Audio
-    pkgs.playerctl
-    pkgs.slurp
-    pkgs.swappy
-    pkgs.transmission_4
-    pkgs.waybar
-    pkgs.wofi
-    pkgs.wl-clipboard
-    pkgs.zen-browser
-    pkgs.zoom-us
-  ];
+  home = {
+    packages = [
+      pkgs.blueberry # Bluetooth
+      pkgs.brightnessctl
+      pkgs.cider
+      pkgs.cliphist
+      pkgs.conky
+      pkgs.discord
+      pkgs.feh
+      pkgs.fuzzel
+      pkgs.grim
+      pkgs.guake
+      pkgs.hyprpaper
+      pkgs.killall
+      pkgs.material-design-icons
+      pkgs.nodejs
+      pkgs.obsidian
+      pkgs.pavucontrol # Audio
+      pkgs.playerctl
+      pkgs.slurp
+      pkgs.swappy
+      pkgs.transmission_4
+      pkgs.waybar
+      pkgs.wofi
+      pkgs.wl-clipboard
+      pkgs.zen-browser
+      pkgs.zoom-us
+    ];
+
+    pointerCursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 24;
+
+      gtk.enable = true;
+      x11.enable = true; # Still needed for Wayland
+    };
+  };
 
   gtk = {
     enable = true;
@@ -73,6 +84,7 @@ in {
     enable = true;
     package = null; # Because already pulled in outside of home manager
     portalPackage = null; # See above
+
     settings = {
       # Startup
       "exec-once" = [
@@ -207,6 +219,12 @@ in {
           ];
         };
       };
+
+      env = [
+        "XCURSOR_THEME,Bibata-Modern-Ice"
+        "XCURSOR_SIZE,24"
+        "HYPRCURSOR_SIZE,24"
+      ];
     };
 
     plugins = [];
