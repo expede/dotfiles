@@ -8,6 +8,48 @@ let
     pulseSupport  = true;
   };
 
+
+  fifo = "/tmp/cava.fifo";
+
+  H = 320;       # bar height in px
+  MAX = 1000;    # MUST match cava ascii_max_range
+
+  cavaToHeights = pkgs.writeShellScript "cavaToHeights" ''
+    set -euo pipefail
+    FIFO=${fifo}
+
+    [ -p "$FIFO" ] || { rm -f "$FIFO"; mkfifo -m 600 "$FIFO"; }
+
+    awk -F';' -v max="${toString MAX}" -v h="${toString H}" '
+      {
+        out = ""
+        for (i = 1; i <= NF; i++) {
+          if ($i == "") continue
+          n = $i + 0
+          if (n < 0) n = 0
+          if (n > max) n = max
+          px = int((n * h) / max + 0.5)
+          if (px < 0) px = 0
+          if (px > h) px = h
+          out = out (out=="" ? "" : " ") px
+        }
+        if (out != "") print out
+        fflush()
+      }
+    ' < "$FIFO"
+  '';
+
+  mkfifo = "${pkgs.coreutils}/bin/mkfifo";
+
+  reader = pkgs.writeShellScript "cava-reader" ''
+    set -euo pipefail
+    while true; do
+      [ -p ${fifo} ] || { rm -f ${fifo}; ${mkfifo} -m 600 ${fifo}; }
+      cat ${fifo}
+      sleep 0.05
+    done
+  '';
+
   # Catppuccin
   base     = "#1e1e2e";
   mantle   = "#181825";
@@ -28,6 +70,7 @@ in {
 
   home = {
     packages = [
+      pkgs._1password-gui
       pkgs.ashell
       pkgs.blueberry # Bluetooth
       pkgs.brightnessctl
@@ -39,6 +82,8 @@ in {
       pkgs.fuzzel
       pkgs.grim
       pkgs.guake
+      pkgs.hypridle
+      pkgs.hyprlock
       pkgs.hyprpaper
       pkgs.killall
       pkgs.loupe
@@ -55,6 +100,7 @@ in {
       pkgs.waybar
       pkgs.wofi
       pkgs.wl-clipboard
+      pkgs.vlc
       pkgs.zen-browser
       pkgs.zoom-us
     ];
@@ -70,7 +116,22 @@ in {
 
   };
 
-  gtk.enable = true;
+  gtk = {
+    enable = true;
+
+    theme = {
+      name = "Catppucinn-Mocha-Standard-Blue-Dark";
+      package = pkgs.catppuccin-gtk;
+    };
+
+    gtk3.extraConfig = {
+      "gtk-application-prefer-dark-theme" = 1;
+    };
+
+    gtk4.extraConfig = {
+      "gtk-application-prefer-dark-theme" = 1;
+    };
+  };
 
   xdg = {
     enable = true;
@@ -100,6 +161,70 @@ in {
         [appearance.menu]
         opacity  = 0.75
         backdrop = 0.30
+      '';
+
+      "eww/eww.yuck".text = ''
+        (deflisten heights :initial "0 0 0 0" "${cavaToHeights}")
+
+        (defwidget cava-bg []
+          (box
+            :class "root"
+            :orientation "h"
+            :spacing 2
+            :valign "end"
+            :vexpand true
+            (for px in {search(heights, "[0-9]+")}
+              (box
+                :class "barwrap"
+                :width 8
+                :height 160
+                :clip true
+                :valign "end"
+                (box
+                  :class "bar"
+                  :valign "end"
+                  :height px)))))
+
+        (defwindow cava_bg
+          :monitor 0
+          :stacking "bg"
+          :layer "background"
+          :exclusive false
+          :focusable false
+          :geometry (geometry :x 0 :y 0 :width "100%" :height "100%")
+          (box :class "cava-window" :hexpand true :vexpand true
+            (cava-bg)))
+      '';
+
+      "eww/eww.scss".text = ''
+        * {
+          all: unset;
+        }
+
+        .cava-window, .root {
+          background-color: rgba(0, 0, 0, 0);
+          padding: 0px;
+        }
+
+        .bar {
+          background: rgba(255, 255, 255, 0.25);
+        }
+      '';
+
+      "eww/eww.xml".text = ''
+        <eww>
+          <window
+            name="cava_bg"
+            monitor="0"
+            layer="background"
+            stacking="bg"
+            exclusive="false"
+            focusable="false"
+            geometry="x=0 y=0 width=100% height=100%"
+          >
+            <widget>cava-bg</widget>
+          </window>
+        </eww>
       '';
 
       "wofi/style.css".text = ''
@@ -160,11 +285,131 @@ in {
         image_size=24
         insensitive=true
       '';
+
+     "hypr/hypridle.conf".text = ''
+       general {
+         lock_cmd = hyprlock
+         before_sleep_cmd = hyprlock
+         after_sleep_cmd = hyprctl dispatch dpms on
+       }
+
+       listener {
+         timeout    = 300 # Lock after 5 minutes
+         on-timeout = hyprlock
+       }
+
+       listener {
+         timeout    = 600 # Turn display off after 10 minutes
+         on-timeout = hyprctl dispatch dpms off
+         on-resume  = hyprctl dispatch dpms on
+       }
+
+       listener {
+         timeout    = 1200 # Suspend after 20 minutes
+         on-timeout = systemctl suspend
+       }
+     '';
+
+     "hypr/hyprlock.conf".text = ''
+       general {
+         disable_loading_bar = true
+         hide_cursor = true
+       }
+
+       background {
+         monitor =
+         path = screenshot
+         blur_passes = 3
+         blur_size = 8
+         brightness = 0.8
+       }
+
+       input-field {
+         monitor =
+         placeholder_text = Password
+         placeholder_color = ${mauve}
+
+         size = 500, 60
+         outline_thickness = 2
+
+         dots_size = 0.25
+         dots_spacing = 0.15
+         dots_center = true
+
+         outer_color = ${pink}
+         inner_color = ${base}
+         font_color  = ${mauve}
+
+         fade_on_empty = false
+
+         rounding = 12
+         position = 0, -100
+
+         halign = center
+         valign = center
+       }
+
+       label {
+         monitior =
+         text = cmd[update:1000] date +'%H:%M'
+         color = ${text}
+         font_size = 64
+         position = 0, 120
+         halign = center
+         valign = center
+       }
+
+       label {
+         monitor =
+         text = Take your time.
+         font_size = 18
+         position = 0, 60
+         halign = center
+         valign = center
+       }
+     '';
     };
   };
 
   programs = {
     ghostty.enable = true;
+
+    cava = {
+      enable = true;
+      settings = {
+        general = {
+          framerate = 30;
+          bars = 64;
+        };
+
+        input = {
+          method = "pulse";
+          source = "auto";
+        };
+
+        output = {
+          method = "raw";
+          raw_target = "/tmp/cava.fifo";
+          data_format = "ascii";
+
+          # CAVA outputs values 0..ascii_max_range as text
+          ascii_max_range = 1000;
+
+          # delimit bars with ';' and frames with newline
+          bar_delimiter = 59;
+          frame_delimiter = 10;
+        };
+
+        smoothing = {
+          integral = 75;
+          gravity = 120;
+        };
+      };
+    };
+
+    eww = {
+      enable = true;
+    };
 
     waybar = {
       enable = true;
@@ -338,6 +583,19 @@ in {
         splash    = false;
       };
     };
+
+    hyprshell = {
+      enable = true;
+      settings = {
+        windows = {
+          scale = 1.0;
+          switch = {
+            modifier = "super";
+            switch_workspaces = true;
+          };
+        };
+      };
+    };
   };
 
   wayland.windowManager.hyprland = {
@@ -349,11 +607,13 @@ in {
       # Startup
       "exec-once" = [
         "ashell"
-        # "waybar"
+        "hypridle"
+        "eww daemon"
+        "eww open cava_bg"
+        "cava"
         "mako"
-        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type text  --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
-        # "hyprpaper"
         "swww init"
         "swww img ${config.home.homeDirectory}/Pictures/Wallpaper/cosy-cabin.jpg --transition-type wipe --transition-duration 0.8"
       ];
@@ -411,6 +671,7 @@ in {
             # App Control
             "$mod,       SPACE,  exec, sh -lc 'flock -n \"$XDG_RUNTIME_DIR/wofi.lock\" wofi --show drun'"
             "$mod,       Return, exec, ghostty"
+            # "$mod,       M,      hyprexpo:expo toggle"
             "$mod,       Q,      killactive"
             "$mod SHIFT, F,      fullscreen"
             "$mod,       G,      togglefloating"
@@ -438,15 +699,18 @@ in {
             "$mod SHIFT, Down,  movewindow, d"
 
             # Workspaces
-            "$mod,       1, workspace,       1"
-            "$mod,       2, workspace,       2"
-            "$mod,       3, workspace,       3"
-            "$mod,       4, workspace,       4"
-            "$mod,       5, workspace,       5"
-            "$mod,       6, workspace,       6"
-            "$mod,       7, workspace,       7"
-            "$mod,       8, workspace,       8"
-            "$mod,       9, workspace,       9"
+            "$mod,       1,     workspace,    1"
+            "$mod,       2,     workspace,    2"
+            "$mod,       3,     workspace,    3"
+            "$mod,       4,     workspace,    4"
+            "$mod,       5,     workspace,    5"
+            "$mod,       6,     workspace,    6"
+            "$mod,       7,     workspace,    7"
+            "$mod,       8,     workspace,    8"
+            "$mod,       9,     workspace,    9"
+            "$mod CTRL,  Left,  workspace,    m-1"
+            "$mod CTRL,  Right, workspace,    m+1"
+
             "$mod SHIFT, 1, movetoworkspace, 1"
             "$mod SHIFT, 2, movetoworkspace, 2"
             "$mod SHIFT, 3, movetoworkspace, 3"
@@ -456,6 +720,9 @@ in {
             "$mod SHIFT, 7, movetoworkspace, 7"
             "$mod SHIFT, 8, movetoworkspace, 8"
             "$mod SHIFT, 9, movetoworkspace, 9"
+
+            # Idle
+            "$mod SHIFT, L, exec, hyprlock"
 
             # Screenshots
             ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +%F-%T).png"
