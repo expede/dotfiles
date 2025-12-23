@@ -70,6 +70,7 @@ in {
 
   home = {
     packages = [
+      pkgs._1password-gui
       pkgs.ashell
       pkgs.blueberry # Bluetooth
       pkgs.brightnessctl
