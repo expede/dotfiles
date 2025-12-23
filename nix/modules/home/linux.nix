@@ -99,6 +99,7 @@ in {
       pkgs.waybar
       pkgs.wofi
       pkgs.wl-clipboard
+      pkgs.vlc
       pkgs.zen-browser
       pkgs.zoom-us
     ];
@@ -114,7 +115,22 @@ in {
 
   };
 
-  gtk.enable = true;
+  gtk = {
+    enable = true;
+
+    theme = {
+      name = "Catppucinn-Mocha-Standard-Blue-Dark";
+      package = pkgs.catppuccin-gtk;
+    };
+
+    gtk3.extraConfig = {
+      "gtk-application-prefer-dark-theme" = 1;
+    };
+
+    gtk4.extraConfig = {
+      "gtk-application-prefer-dark-theme" = 1;
+    };
+  };
 
   xdg = {
     enable = true;
