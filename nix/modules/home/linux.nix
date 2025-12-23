@@ -81,6 +81,8 @@ in {
       pkgs.fuzzel
       pkgs.grim
       pkgs.guake
+      pkgs.hypridle
+      pkgs.hyprlock
       pkgs.hyprpaper
       pkgs.killall
       pkgs.loupe
@@ -266,6 +268,89 @@ in {
         image_size=24
         insensitive=true
       '';
+
+     "hypr/hypridle.conf".text = ''
+       general {
+         lock_cmd = hyprlock
+         before_sleep_cmd = hyprlock
+         after_sleep_cmd = hyprctl dispatch dpms on
+       }
+
+       listener {
+         timeout    = 300 # Lock after 5 minutes
+         on-timeout = hyprlock
+       }
+
+       listener {
+         timeout    = 600 # Turn display off after 10 minutes
+         on-timeout = hyprctl dispatch dpms off
+         on-resume  = hyprctl dispatch dpms on
+       }
+
+       listener {
+         timeout    = 1200 # Suspend after 20 minutes
+         on-timeout = systemctl suspend
+       }
+     '';
+
+     "hypr/hyprlock.conf".text = ''
+       general {
+         disable_loading_bar = true
+         hide_cursor = true
+       }
+
+       background {
+         monitor =
+         path = screenshot
+         blur_passes = 3
+         blur_size = 8
+         brightness = 0.8
+       }
+
+       input-field {
+         monitor =
+         placeholder_text = Password
+         placeholder_color = ${mauve}
+
+         size = 500, 60
+         outline_thickness = 2
+
+         dots_size = 0.25
+         dots_spacing = 0.15
+         dots_center = true
+
+         outer_color = ${pink}
+         inner_color = ${base}
+         font_color  = ${mauve}
+
+         fade_on_empty = false
+
+         rounding = 12
+         position = 0, -100
+
+         halign = center
+         valign = center
+       }
+
+       label {
+         monitior =
+         text = cmd[update:1000] date +'%H:%M'
+         color = ${text}
+         font_size = 64
+         position = 0, 120
+         halign = center
+         valign = center
+       }
+
+       label {
+         monitor =
+         text = Take your time.
+         font_size = 18
+         position = 0, 60
+         halign = center
+         valign = center
+       }
+     '';
     };
   };
 
@@ -472,6 +557,7 @@ in {
     };
 
     mako.enable = true;
+
     hyprpaper = {
       enable = true;
       settings = {
@@ -486,11 +572,10 @@ in {
       settings = {
         windows = {
           scale = 1.0;
-          # overview = {
-          #   launcher.max_items = 6;
-          # };
-
-          switch.modifier = "super";
+          switch = {
+            modifier = "SUPER";
+            switch_workspaces = true;
+          };
         };
       };
     };
@@ -505,6 +590,7 @@ in {
       # Startup
       "exec-once" = [
         "ashell"
+        "hypridle"
         "eww daemon"
         "eww open cava_bg"
         "cava"
@@ -568,6 +654,7 @@ in {
             # App Control
             "$mod,       SPACE,  exec, sh -lc 'flock -n \"$XDG_RUNTIME_DIR/wofi.lock\" wofi --show drun'"
             "$mod,       Return, exec, ghostty"
+            # "$mod,       M,      hyprexpo:expo toggle"
             "$mod,       Q,      killactive"
             "$mod SHIFT, F,      fullscreen"
             "$mod,       G,      togglefloating"
@@ -604,8 +691,8 @@ in {
             "$mod,       7,     workspace,    7"
             "$mod,       8,     workspace,    8"
             "$mod,       9,     workspace,    9"
-            "$mod,       Left,  workspace,    m-1"
-            "$mod,       Right, workspace,    m+1"
+            "$mod CTRL,  Left,  workspace,    m-1"
+            "$mod CTRL,  Right, workspace,    m+1"
 
             "$mod SHIFT, 1, movetoworkspace, 1"
             "$mod SHIFT, 2, movetoworkspace, 2"
@@ -616,6 +703,9 @@ in {
             "$mod SHIFT, 7, movetoworkspace, 7"
             "$mod SHIFT, 8, movetoworkspace, 8"
             "$mod SHIFT, 9, movetoworkspace, 9"
+
+            # Idle
+            "$mod SHIFT, L, exec, hyprlock"
 
             # Screenshots
             ", Print, exec, grim -g \"$(slurp)\" ~/Pictures/Screenshots/$(date +%F-%T).png"
