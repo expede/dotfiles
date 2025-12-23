@@ -590,7 +590,7 @@ in {
         windows = {
           scale = 1.0;
           switch = {
-            modifier = "SUPER";
+            modifier = "super";
             switch_workspaces = true;
           };
         };
