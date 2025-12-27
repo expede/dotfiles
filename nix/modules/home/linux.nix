@@ -74,10 +74,9 @@ in {
       pkgs.ashell
       pkgs.blueberry # Bluetooth
       pkgs.brightnessctl
-      pkgs.cider
+      pkgs.cider-2
       pkgs.cliphist
       pkgs.conky
-      pkgs.discord
       pkgs.feh
       pkgs.fuzzel
       pkgs.grim
@@ -373,6 +372,7 @@ in {
 
   programs = {
     ghostty.enable = true;
+    discord.enable = true;
 
     cava = {
       enable = true;
