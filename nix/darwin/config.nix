@@ -13,6 +13,7 @@
     [ pkgs.vim
       pkgs.fish
       pkgs.home-manager
+      pkgs.iina
     ];
 
   # programs.zsh.enable  = true; # Default shell on Catalina
