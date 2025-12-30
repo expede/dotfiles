@@ -7,7 +7,6 @@
     pkgs.fastfetch
     pkgs.fd
     pkgs.font-awesome
-    pkgs.inkscape-with-extensions
     pkgs.ispell
     pkgs.mosh
     pkgs.speedtest-cli
